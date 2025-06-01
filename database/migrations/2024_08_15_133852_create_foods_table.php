@@ -1,0 +1,27 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+
+    public function up(): void
+    {
+        Schema::create('foods', function (Blueprint $table) {
+            $table->id();
+            $table->uuid()->unique();
+            $table->string('name');
+            $table->string('code');
+            $table->text('ingredients')->nullable();
+            $table->text('allergens')->nullable();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('foods');
+    }
+};
