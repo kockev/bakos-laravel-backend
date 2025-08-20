@@ -30,13 +30,13 @@ jobs:
 
       - name: Create .env from GitHub variable
         run: |
-          ssh -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
-            echo \"${{ env.ENV }}\" > ${DEPLOY_DIR}.env"
+          ssh -p ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
+            echo \"${{ vars.ENV }}\" > ${DEPLOY_DIR}.env"
 
       - name: Run backend commands inside docker container
         run: |
-          ssh -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
-            cd ${DEPLOY_DIR} && \
+          ssh -p ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
+            cd ${DOCKER_ENV_ROOT_DIR} && \
             docker compose exec -T php_backend bash -c '\
               composer install --no-dev --optimize-autoloader && \
               php artisan migrate && \
