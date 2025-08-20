@@ -27,10 +27,16 @@ jobs:
         run: |
           rsync -az --delete -e "ssh -i ~/.ssh/id_ed25519" ./ ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}
 
+      - name: Debug ENV contents
+        run: |
+          echo "${{ vars.ENV }}"
+
       - name: Create .env from GitHub variable
         run: |
           ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
-            echo \"${{ vars.ENV }}\" > ${DEPLOY_DIR}.env"
+            "cat > ${{ secrets.DEPLOY_DIR }}/.env" << 'EOF'
+            ${{ vars.ENV }}
+            EOF
 
       - name: Run backend commands inside docker container
         run: |
