@@ -1,0 +1,46 @@
+name: Deploy Backend
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - production
+
+jobs:
+  deploy:
+    name: Deploy Backend to Production Server
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout backend code
+        uses: actions/checkout@v4
+
+      - name: Set up SSH (runner to server)
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Sync backend to server
+        run: |
+          rsync -az --delete -e "ssh -p ${{ secrets.SSH_PORT || '22' }}" ./ \
+          ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}
+
+      - name: Create .env from GitHub variable
+        run: |
+          ssh -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
+            echo \"${{ variables.ENV }}\" > ${DEPLOY_DIR}.env"
+
+      - name: Run backend commands inside container
+        run: |
+          ssh -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
+            cd ${DEPLOY_DIR} && \
+            docker compose exec -T php_backend bash -c '\
+              composer install --no-dev --optimize-autoloader && \
+              php artisan migrate && \
+              php artisan config:clear && \
+              php artisan cache:clear && \
+              php artisan optimize \
+            '"
