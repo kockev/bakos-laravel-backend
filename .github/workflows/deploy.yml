@@ -25,17 +25,16 @@ jobs:
 
       - name: Sync backend to server (copy from runner to server)
         run: |
-          rsync -az --delete -e "ssh -p ${{ secrets.SSH_PORT || '22' }}" ./ \
-          ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}
+          rsync -az --delete -e "ssh -i ~/.ssh/id_ed25519" ./ ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}
 
       - name: Create .env from GitHub variable
         run: |
-          ssh -p ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
+          ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
             echo \"${{ vars.ENV }}\" > ${DEPLOY_DIR}.env"
 
       - name: Run backend commands inside docker container
         run: |
-          ssh -p ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
+          ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
             cd ${DOCKER_ENV_ROOT_DIR} && \
             docker compose exec -T php_backend bash -c '\
               composer install --no-dev --optimize-autoloader && \
