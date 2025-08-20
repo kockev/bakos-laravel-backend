@@ -31,6 +31,10 @@ jobs:
         run: |
           echo "${{ vars.ENV }}" | ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "cat > ${{ secrets.DEPLOY_DIR }}/.env"
 
+      - name: Debug Docker Directory
+        run: |
+          echo "${{ secrets.DOCKER_ENV_ROOT_DIR }}"
+
       - name: Run backend commands inside docker container
         run: |
           ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
