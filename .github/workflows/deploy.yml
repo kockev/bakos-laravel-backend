@@ -16,14 +16,14 @@ jobs:
       - name: Checkout backend code
         uses: actions/checkout@v4
 
-      - name: Set up SSH (runner to server)
+      - name: Set up SSH (in runner)
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Sync backend to server
+      - name: Sync backend to server (copy from runner to server)
         run: |
           rsync -az --delete -e "ssh -p ${{ secrets.SSH_PORT || '22' }}" ./ \
           ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}
