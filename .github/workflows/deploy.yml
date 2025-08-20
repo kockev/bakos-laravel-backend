@@ -33,7 +33,7 @@ jobs:
           ssh -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
             echo \"${{ variables.ENV }}\" > ${DEPLOY_DIR}.env"
 
-      - name: Run backend commands inside container
+      - name: Run backend commands inside docker container
         run: |
           ssh -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "\
             cd ${DEPLOY_DIR} && \
