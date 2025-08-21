@@ -31,9 +31,9 @@ jobs:
         run: |
           echo "${{ vars.ENV }}" | ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "cat > ${{ secrets.DEPLOY_DIR }}/.env"
 
-      - name: Debug Docker Directory
+      - name: Create auth.json from GitHub variable
         run: |
-          echo "${{ secrets.DOCKER_ENV_ROOT_DIR }}"
+          echo "${{ vars.AUTH_JSON }}" | ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "cat > ${{ secrets.DEPLOY_DIR }}/auth.json"
 
       - name: Run backend commands inside docker container
         run: |
