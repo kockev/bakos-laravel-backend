@@ -34,7 +34,7 @@ jobs:
         run: |
           echo "${{ vars.ENV }}" | ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "cat > ${{ secrets.DEPLOY_DIR }}/.env"
 
-      - name: Create auth.json from GitHub variable
+      - name: Create auth.json from GitHub variable (minified one-liner JSON)
         run: |
           echo "${{ vars.AUTH_JSON }}" | ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} "cat > ${{ secrets.DEPLOY_DIR }}/auth.json"
 
