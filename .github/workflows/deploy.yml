@@ -45,10 +45,14 @@ jobs:
           ssh ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             cd ${{ secrets.DOCKER_ENV_ROOT_DIR }}
             docker compose exec -T php_backend bash -c "
+            chown www-data:www-data /var/www/backend/current/.env &&
+            chmod 640 /var/www/backend/current/.env &&
             composer install --no-dev --optimize-autoloader &&
             php artisan migrate --force &&
             php artisan config:clear &&
             php artisan cache:clear &&
-            php artisan optimize
+            php artisan config:cache &&
+            php artisan route:cache &&
+            php artisan view:cache
             "
           EOF
