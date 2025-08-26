@@ -25,10 +25,12 @@ jobs:
 
       - name: Sync backend to server (copy from runner to server)
         run: |
-          rsync -az --delete \
-            --exclude 'vendor/' \
-            -e "ssh -i ~/.ssh/id_ed25519" \
-            ./ ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}
+          rsync -az --delete --no-g \
+          --exclude 'vendor/' \
+          --exclude 'storage/' \
+          --exclude 'bootstrap/cache/' \
+          -e "ssh -i ~/.ssh/id_ed25519" \
+          ./ ${{ secrets.DEPLOY_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_DIR }}
 
       - name: Create .env from GitHub variable
         run: |
