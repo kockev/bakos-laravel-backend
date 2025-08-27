@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
                     );
 
         $role = Role::query()
-                    ->where('name', Roles::ADMIN)
+                    ->where('name', Roles::SUPER_ADMIN)
                     ->first();
 
         if ($role) {
