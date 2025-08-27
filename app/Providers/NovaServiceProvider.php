@@ -2,13 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use App\Nova\ActivityLogNovaResource;
 use App\Nova\CompanyNovaResource;
-use App\Nova\KitchenOrderNovaResource;
 use App\Nova\Dashboards\Main;
-use App\Nova\InstitutionNovaResource;
-use App\Nova\FoodNovaResource;
 use App\Nova\DietNovaResource;
+use App\Nova\FoodNovaResource;
+use App\Nova\InstitutionNovaResource;
+use App\Nova\KitchenOrderNovaResource;
 use App\Nova\MenuNovaResource;
 use App\Nova\OrderNovaResource;
 use App\Nova\SettingsNovaResource;
@@ -156,11 +157,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewNova', function ($user) {
-            return in_array($user->email, [
-                //
-            ]);
-        });
+        Gate::define('viewNova', fn($user) => true);
     }
 
     /**
