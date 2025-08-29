@@ -34,7 +34,7 @@ class DownloadOrderCombinedPdfNovaAction extends DetachedAction
 
     public function handle(ActionFields $fields)
     {
-        $date     = Carbon::parse($fields->get('date'));
+        $date     = Carbon::parse($fields->get('picked_date'));
         $mealType = $fields->get('meal_type');
 
         $mealTypeLabels = [
@@ -45,13 +45,13 @@ class DownloadOrderCombinedPdfNovaAction extends DetachedAction
         $mealLabel = $mealTypeLabels[$mealType];
 
         $latestOrders = Order::query()
-                             ->whereDate('created_at', $date)
+                             ->whereDate('order_date', $date)
                              ->orderBy('created_at', 'desc')
                              ->get()
                              ->unique('institution_id');
 
         if ($latestOrders->isEmpty()) {
-            return DetachedAction::danger('No available order for today!');
+            return DetachedAction::danger('No available order for the given date!');
         }
 
         $pdfPaths = [];
@@ -87,7 +87,7 @@ class DownloadOrderCombinedPdfNovaAction extends DetachedAction
     public function fields(NovaRequest $request)
     {
         return [
-            Date::make('Date:')
+            Date::make('Date:', 'picked_date')
                 ->rules('required', 'date'),
 
             Select::make('Meal Type', 'meal_type')
