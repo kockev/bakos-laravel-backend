@@ -14,6 +14,8 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ProcessKitchenOrderCreationJob
 {
@@ -97,7 +99,11 @@ class ProcessKitchenOrderCreationJob
 
             });
         } catch (\Throwable $e) {
-
+            Log::error('Error during kitchen order creation!', [
+                'message' => $e->getMessage(),
+                'trace'   => $e->getTraceAsString(),
+            ]);
+            abort(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY, "Error during kitchen order creation!");
         }
 
         $admins = User::role([Roles::SUPER_ADMIN, Roles::ADMIN])->get();
