@@ -37,6 +37,13 @@ class DownloadOrderCombinedPdfNovaAction extends DetachedAction
         $date     = Carbon::parse($fields->get('date'));
         $mealType = $fields->get('meal_type');
 
+        $mealTypeLabels = [
+            Order::ORDER_INSTITUTION_BIG_MEAL_PDF   => 'big-meal',
+            Order::ORDER_INSTITUTION_SMALL_MEAL_PDF => 'small-meal',
+        ];
+
+        $mealLabel = $mealTypeLabels[$mealType];
+
         $latestOrders = Order::query()
                              ->whereDate('created_at', $date)
                              ->orderBy('created_at', 'desc')
@@ -66,15 +73,15 @@ class DownloadOrderCombinedPdfNovaAction extends DetachedAction
 
         // Generate combined PDF path
         $combinedPdfPath = Storage::disk('public')
-                                  ->path('combined/combined_orders_' . $mealType . '_' . $date->format('Y-m-d') . '.pdf');
+                                  ->path('combined/combined_orders_' . $mealLabel . '_' . $date->format('Y-m-d') . '.pdf');
 
         // Concatenate PDFs
         $this->pdfService->concatenatePdfs($pdfPaths, $combinedPdfPath);
 
         $downloadUrl = Storage::disk('public')
-                              ->url('combined/combined_orders_' . $mealType . '_' . $date->format('Y-m-d') . '.pdf');
+                              ->url('combined/combined_orders_' . $mealLabel . '_' . $date->format('Y-m-d') . '.pdf');
 
-        return DetachedAction::download($downloadUrl, 'combined_orders_' . $mealType . '_' . $date->format('Y-m-d') . '.pdf');
+        return DetachedAction::download($downloadUrl, 'combined_orders_' . $mealLabel . '_' . $date->format('Y-m-d') . '.pdf');
     }
 
     public function fields(NovaRequest $request)
