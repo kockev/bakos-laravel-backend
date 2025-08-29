@@ -193,17 +193,19 @@ class StudentNovaResource extends Resource
                                 ->filter(fn($value) => $value === true) // Keep only `true` values
                                 ->keys();
 
-                            // Sync the filtered meal preferences
-                            $model->mealPreferences()->delete(); // Clear old preferences
-                            foreach ($selectedMeals as $mealType) {
-                                $model->mealPreferences()->create(['meal_type' => $mealType]);
-                            }
+                            // Sync the filtered meal preferences after student saved
+                            $model::saved(function ($student) use ($selectedMeals) {
+                                $student->mealPreferences()->delete(); // Clear old preferences
+                                foreach ($selectedMeals as $mealType) {
+                                    $student->mealPreferences()->create(['meal_type' => $mealType]);
+                                }
+                            });
                         })
                         ->resolveUsing(function ($value, $model) {
                             // Fetch all meal preferences and return them as booleans for the BooleanGroup
                             $selectedMeals = $model->mealPreferences
-                                ->pluck('meal_type') // Returns a collection of MealTypeEnum objects
-                                ->map(fn($mealType) => $mealType->value) // Access the 'value' property
+                                ->pluck('meal_type')
+                                ->map(fn($mealType) => $mealType->value)
                                 ->toArray();
 
                             // Map enum values to booleans
