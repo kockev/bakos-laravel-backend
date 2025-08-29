@@ -85,8 +85,8 @@ class DownloadOrderCombinedPdfNovaAction extends DetachedAction
 
             Select::make('Meal Type', 'meal_type')
                   ->options([
-                                'Big'   => Order::ORDER_INSTITUTION_BIG_MEAL_PDF,
-                                'Small' => Order::ORDER_INSTITUTION_SMALL_MEAL_PDF,
+                                Order::ORDER_INSTITUTION_BIG_MEAL_PDF   => 'Big Meal',
+                                Order::ORDER_INSTITUTION_SMALL_MEAL_PDF => 'Small Meal',
                             ])
                   ->rules('required')
                   ->displayUsingLabels(),
