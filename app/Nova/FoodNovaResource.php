@@ -82,6 +82,8 @@ class FoodNovaResource extends Resource
                 ->required(),
 
             Text::make('Code', 'code')
+                ->creationRules('unique:foods,code')
+                ->updateRules('unique:foods,code,{{resourceId}}')
                 ->sortable()
                 ->required(),
 

@@ -57,6 +57,11 @@ class ProcessOrderCreationJob implements ShouldQueue
                                        ->where('institution_id', $institution->id)
                                        ->get();
 
+                    //Skip Institution entirely
+                    if ($students->isEmpty()) {
+                        continue;
+                    }
+
                     foreach ($students as $student) {
 
                         //After we have the order lets add students to the order and track their name, status, diet...etc

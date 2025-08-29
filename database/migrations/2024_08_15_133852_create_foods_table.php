@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->id();
             $table->uuid()->unique();
             $table->string('name');
-            $table->string('code');
+            $table->string('code')->unique();
             $table->text('ingredients')->nullable();
             $table->text('allergens')->nullable();
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
