@@ -144,13 +144,13 @@ class ProcessOrderCreationJob implements ShouldQueue
 
                     // Save to OrderFood
                     foreach ($foodSummary as $summary) {
-                        $order->orderFoods::create([
-                                                       'meal_type' => $summary['meal_type'],
-                                                       'food_code' => $summary['food_code'],
-                                                       'food_name' => $summary['food_name'],
-                                                       'allergens' => $summary['allergens'],
-                                                       'quantity'  => $summary['quantity'],
-                                                   ]);
+                        $order->orderFoods()->create([
+                                                         'meal_type' => $summary['meal_type'],
+                                                         'food_code' => $summary['food_code'],
+                                                         'food_name' => $summary['food_name'],
+                                                         'allergens' => $summary['allergens'],
+                                                         'quantity'  => $summary['quantity'],
+                                                     ]);
                     }
 
                     $order->load([
