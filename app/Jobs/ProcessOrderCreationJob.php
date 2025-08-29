@@ -17,6 +17,8 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ProcessOrderCreationJob implements ShouldQueue
 {
@@ -172,7 +174,11 @@ class ProcessOrderCreationJob implements ShouldQueue
 
             });
         } catch (\Throwable $e) {
-
+            Log::error('Error during order creation!', [
+                'message' => $e->getMessage(),
+                'trace'   => $e->getTraceAsString(),
+            ]);
+            abort(ResponseAlias::HTTP_UNPROCESSABLE_ENTITY, "Error during order creation!");
         }
 
         $admins = User::role([Roles::SUPER_ADMIN, Roles::ADMIN])->get();
