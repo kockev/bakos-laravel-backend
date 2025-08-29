@@ -49,6 +49,7 @@ jobs:
             chmod 640 /var/www/backend/current/.env &&
             composer install --no-dev --optimize-autoloader &&
             php artisan migrate --force &&
+            php artisan storage:link &&
             php artisan config:clear &&
             php artisan cache:clear &&
             php artisan config:cache &&
