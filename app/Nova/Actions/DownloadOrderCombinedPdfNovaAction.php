@@ -23,9 +23,9 @@ class DownloadOrderCombinedPdfNovaAction extends DetachedAction
 
     public $name = 'Download Combined PDF';
 
-    public $confirmText = 'Are you sure you want to download the latest combined order PDF for today?';
+    public $confirmText = 'Choose the date and meal type to download the combined PDF:';
 
-    public $confirmButtonText = 'Yes';
+    public $confirmButtonText = 'Confirm';
 
     public function __construct()
     {

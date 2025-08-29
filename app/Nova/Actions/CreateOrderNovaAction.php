@@ -23,7 +23,7 @@ class CreateOrderNovaAction extends DetachedAction
 
     public $confirmText = 'Please select the date of the order:';
 
-    public $confirmButtonText = 'Yes';
+    public $confirmButtonText = 'Confirm';
 
 
     public function __construct()
