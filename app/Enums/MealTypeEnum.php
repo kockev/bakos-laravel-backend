@@ -18,9 +18,18 @@ enum MealTypeEnum: string
         })->toArray();
     }
 
-    public function label(): string
+    public static function label(string|self $mealType): string
     {
-        return match ($this) {
+        // If we got a string, convert to enum case
+        if (is_string($mealType)) {
+            $mealType = self::tryFrom($mealType);
+        }
+
+        if (!$mealType instanceof self) {
+            return $mealType;
+        }
+
+        return match ($mealType) {
             self::LUNCH_SOUP => 'Leves',
             self::LUNCH_MAIN => 'Főétel',
             self::LUNCH_OTHER_1 => 'Egyéb 1',
