@@ -162,22 +162,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(MealTypeEnum::values() as $meal)
-                            @foreach ($order->orderFoods as $food)
-                                @if($meal == $food->meal_type)
-                                    <tr>
-                                        <td>{{ $food->meal_type }}</td>
-                                        <td>{{ $food->quantity }}</td>
-                                        <td>{{ $food->food_code }}</td>
-                                        <td>{{ $food->food_name }}</td>
-                                        <td>{{ $food->allergens }}</td>
-                                    </tr>
-                                @endif
-                            @endforeach
+                        @foreach ($order->orderFoods->whereIn('meal_type', $bigMealTypes) as $food)
+                            <tr>
+                                <td>{{ MealTypeEnum::from($food->meal_type)->label() }}</td>
+                                <td>{{ $food->quantity }}</td>
+                                <td>{{ $food->food_code }}</td>
+                                <td>{{ $food->food_name }}</td>
+                                <td>{{ $food->allergens }}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
+        </div>
+
+        <div class="content">
+            <p>Tálalókonyhára érkezés időpontja: </p>
+            <p>Hűtő dobozban mért hőmérséklet:</p>
+            <p>Étel hőfoka érkezéskor:</p>
+            <p>Átadó:</p>
+            <p>Átvevő:</p>
+            <p>Ellenőrizte:</p>
+            <p>Megjegyzés: A diétás ételek elkészülésének, expediálására vonatkozó információk diétánként kerülnek
+                dokumentálásra a főzőkonyhai Ételvizsgálati Felügyeleti Lap-on. A diétás ételek adagolása a Diétás
+                Adagolási előírás szerint a főzőkonyhán történik diéta kódhoz és korcsoporthoz kötötten. Az étel 0-5 °C
+                között tárolva, kizárólag a szállítás napján fogyasztható. A tálalókonyhákon a diétás ételek
+                újramelegítését minden esetben el kell végezni, legalább 2 percen át tartó 72°C fok maghőmérséklet
+                eléréséig. A doboz és a fedő is mikrózható.</p>
         </div>
 
     </body>

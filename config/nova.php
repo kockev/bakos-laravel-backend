@@ -1,5 +1,6 @@
 <?php
 
+use CubeAgency\NovaGoogle2fa\Http\Middleware\Google2fa;
 use Laravel\Nova\Actions\ActionResource;
 use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Http\Middleware\Authorize;
@@ -103,6 +104,7 @@ return [
         HandleInertiaRequests::class,
         DispatchServingNovaEvent::class,
         BootTools::class,
+        Google2fa::class,
     ],
 
     'api_middleware' => [
