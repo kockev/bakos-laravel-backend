@@ -16,6 +16,7 @@ use App\Nova\SettingsNovaResource;
 use App\Nova\StudentNovaResource;
 use App\Nova\UserNovaResource;
 use App\Support\Permissions;
+use CubeAgency\NovaGoogle2fa\Google2fa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -179,7 +180,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            new Google2fa(),
+        ];
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\HasUuid;
 use App\Traits\TracksUserUpdates;
+use CubeAgency\NovaGoogle2fa\Traits\HasGoogle2fa;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,7 +20,8 @@ class User extends Authenticatable
         HasUuid,
         TracksUserUpdates,
         LogsActivity,
-        HasRoles;
+        HasRoles,
+        HasGoogle2fa;
 
     protected $fillable = [
         'uuid',

@@ -122,6 +122,17 @@ class UserNovaResource extends Resource
                      ->viewable(false)
                      ->onlyOnDetail(),
 
+            Text::make('Reset two-factor auth', function () {
+                if (auth()->id() === $this->id) {
+                    $route      = route('nova.google2fa.destroy');
+                    $buttonText = __('nova-google2fa::2fa-auth.actions.reset');
+
+                    return "<a href='{$route}' class='class=shadow relative bg-primary-500 hover:bg-primary-400 text-white dark:text-gray-900 cursor-pointer rounded text-sm font-bold focus:outline-none focus:ring ring-primary-200 dark:ring-gray-600 inline-flex items-center justify-center h-9 px-3 shadow relative bg-primary-500 hover:bg-primary-400 text-white dark:text-gray-900'>
+                            {$buttonText}</a>";
+                }
+            })->asHtml()
+                ->onlyOnDetail(),
+
             DateTime::make('Updated At', 'updated_at')
                     ->onlyOnDetail()
                     ->readonly(),
