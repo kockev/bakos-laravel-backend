@@ -164,7 +164,7 @@
                     <tbody>
                         @foreach ($order->orderFoods->whereIn('meal_type', $bigMealTypes) as $food)
                             <tr>
-                                <td>{{ MealTypeEnum::from($food->meal_type)->label() }}</td>
+                                <td>{{ MealTypeEnum::label($food->meal_type) }}</td>
                                 <td>{{ $food->quantity }}</td>
                                 <td>{{ $food->food_code }}</td>
                                 <td>{{ $food->food_name }}</td>
