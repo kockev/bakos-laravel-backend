@@ -1,9 +1,8 @@
-# Bakos Docker Environment - Backend
-
 ## Tartalomjegyzék
 
 1. [Modell Hierarchia](#modell-hierarchia)
 2. [Nova Admin Felhasználói Kézikönyv](#nova-admin-felhasználói-kézikönyv)
+   - [Bejelentkezés](#bejelentkezés)
    - [Áttekintés](#áttekintés)
    - [Cégkezelés](#cégkezelés)
    - [Intézménykezelés](#intézménykezelés)
@@ -19,28 +18,28 @@
 A rendszer modelljei a következő hierarchikus struktúrában kapcsolódnak egymáshoz:
 
 ```
-🏢 Company (Root Entity)
-└── 🏫 Institution (belongs to Company)
-    └── 👨‍🎓 Student (belongs to Institution)
-        └── 🥗 Diet (Student belongs to Diet)
-            └── 📋 Menu (Diet has many Menus)
-                └── 🍽️ Food (Menu contains many Foods)
+🏢 Cég/Szervezet
+└── 🏫 Intézmény
+    └── 👨‍🎓 Diák
+        └── 🥗 Diéta
+            └── 📋 Menü
+                └── 🍽️ Ételek
 ```
 
 ### Részletes Kapcsolatok
 
 #### **1. Cég → Intézmény**
-- **Cég** (Company) → **Intézmény** (Institution) - Egy-a-többhöz kapcsolat
+- **Cég/Szervezet** (Company) → **Intézmény** (Institution)
 - Egy cég több intézményt kezelhet
 - Egy intézmény egy céghez tartozik
 
 #### **2. Intézmény → Diák**
-- **Intézmény** (Institution) → **Diák** (Student) - Egy-a-többhöz kapcsolat
+- **Intézmény** (Institution) → **Diák** (Student)
 - Egy intézmény több diákot fogadhat
 - Egy diák egy intézményhez tartozik
 
 #### **3. Diák → Diéta**
-- **Diák** (Student) → **Diéta** (Diet) - Több-a-egyhez kapcsolat
+- **Diák** (Student) → **Diéta** (Diet)
 - Egy diák egy specifikus diétát követ
 - Egy diéta több diákhoz rendelhető
 
@@ -56,7 +55,7 @@ A rendszer modelljei a következő hierarchikus struktúrában kapcsolódnak egy
 
 ### Üzleti Logika
 
-1. **Cégek** több **Intézményt** kezelnek (iskolák/oktatási intézmények)
+1. **Cégek/*Szervezetek** több **Intézményt** kezelnek (iskolák/oktatási intézmények)
 2. Minden **Intézmény** több **Diákot** fogad
 3. Minden **Diák** egy specifikus **Diétát** követ (táplálkozási követelmények)
 4. Minden **Diéta** több **Menüvel** kompatibilis (különböző étkezési tervek)
@@ -65,6 +64,18 @@ A rendszer modelljei a következő hierarchikus struktúrában kapcsolódnak egy
 ---
 
 ## Nova Admin Felhasználói Kézikönyv
+
+### Bejelentkezés
+
+A rendszerbe való bejelentkezéshez először az email címedet és jelszavadat kell megadnod. Ezután kötelező a kétlépcsős azonosítás (2FA), amely a következőképpen működik:
+- Töltsd le a Google Authenticator alkalmazást a telefonodra a Play Áruházból (Android) vagy az App Store-ból (iPhone).
+- Első bejelentkezéskor megjelenik egy QR-kód a képernyőn.
+- Nyisd meg a Google Authenticator alkalmazást, és olvasd be a QR-kódot.
+- Ezután a BakosApp bekerül az alkalmazásba, ahol mindig látható lesz egy 6 számjegyű kód.
+- Minden bejelentkezéskor, a jelszó megadása után ezt a 6 jegyű kódot kell beírnod a rendszerbe.
+
+Ez a kétlépcsős azonosítás segít megvédeni a fiókot illetéktelen felhasználóktól, arra az esetre, ha a jelszó kiszivárogna.
+
 
 ### Áttekintés
 
@@ -77,11 +88,11 @@ A Nova admin felület a következő fő menüpontokból áll:
 
 ---
 
-## Cégkezelés
+## Cég/Szervezet kezelés
 
 ### 1. Cégek (Companies)
 
-#### Új cég létrehozása:
+#### Új cég/szervezet létrehozása:
 1. Navigálj a **Company Management** → **Companies** menüpontra
 2. Kattints a **"Create Company"** gombra
 3. Töltsd ki a kötelező mezőket:
@@ -91,6 +102,8 @@ A Nova admin felület a következő fő menüpontokból áll:
    - **Email**
    - **Telefon** (Phone)
 4. Kattints a **"Create"** gombra
+
+A Cég/Szervezet részletes nézetében látható a hozzárendelt intézmények listája.
 
 #### Cég szerkesztése:
 1. A cégek listájában kattints a szerkeszteni kívánt cégre
@@ -116,6 +129,8 @@ A Nova admin felület a következő fő menüpontokból áll:
    - **Cég** (Company) - kötelező, válassz egy céget a listából
    - **Cím** (Address)
 4. Kattints a **"Create"** gombra
+
+Az intézmény részletes nézetében látható a hozzárendelt gyerekek listája.
 
 #### Intézmény szerkesztése:
 1. Az intézmények listájában kattints a szerkeszteni kívánt intézményre
@@ -158,16 +173,31 @@ A Nova admin felület a következő fő menüpontokból áll:
 1. A diák részletei oldalon kattints a **"Delete"** gombra
 2. Erősítsd meg a törlést
 
-#### Vendég felhasználók (Guest Users):
-- Vendég felhasználók csak a saját intézményük diákjait láthatják
-- Csak a hiányzási időszakokat (Inactive From/To) szerkeszthetik
-- A többi mező csak olvasható
-
 ---
 
-## Táplálkozáskezelés
+## Táplálkozáskezelés (Nutrition Management)
 
-### 4. Diéták (Diets)
+### 4. Ételek (Foods)
+
+#### Új étel hozzáadása:
+1. Navigálj a **Nutrition Management** → **Foods** menüpontra
+2. Kattints a **"Create Food"** gombra
+3. Töltsd ki a kötelező mezőket:
+   - **Név** (Name) - kötelező
+   - **Kód** (Code) - kötelező, egyedi kell legyen
+4. Opcionális mezők:
+   - **Összetevők** (Ingredients)
+   - **Allergének** (Allergens)
+5. Kattints a **"Create"** gombra
+
+#### Étel szerkesztése:
+1. Az ételek listájában kattints a szerkeszteni kívánt ételre
+2. Kattints a **"Edit"** gombra
+3. Módosítsd a szükséges mezőket
+4. Kattints a **"Update"** gombra
+
+
+### 5. Diéták (Diets)
 
 #### Új diéta létrehozása:
 1. Navigálj a **Nutrition Management** → **Diets** menüpontra
@@ -184,7 +214,7 @@ A Nova admin felület a következő fő menüpontokból áll:
 3. Módosítsd a szükséges mezőket
 4. Kattints a **"Update"** gombra
 
-### 5. Menük (Menus)
+### 6. Menük (Menus)
 
 #### Új menü létrehozása:
 1. Navigálj a **Nutrition Management** → **Menus** menüpontra
@@ -200,25 +230,6 @@ A Nova admin felület a következő fő menüpontokból áll:
 
 #### Menü szerkesztése:
 1. A menük listájában kattints a szerkeszteni kívánt menüre
-2. Kattints a **"Edit"** gombra
-3. Módosítsd a szükséges mezőket
-4. Kattints a **"Update"** gombra
-
-### 6. Ételek (Foods)
-
-#### Új étel hozzáadása:
-1. Navigálj a **Nutrition Management** → **Foods** menüpontra
-2. Kattints a **"Create Food"** gombra
-3. Töltsd ki a kötelező mezőket:
-   - **Név** (Name) - kötelező
-   - **Kód** (Code) - kötelező, egyedi kell legyen
-4. Opcionális mezők:
-   - **Összetevők** (Ingredients)
-   - **Allergének** (Allergens)
-5. Kattints a **"Create"** gombra
-
-#### Étel szerkesztése:
-1. Az ételek listájában kattints a szerkeszteni kívánt ételre
 2. Kattints a **"Edit"** gombra
 3. Módosítsd a szükséges mezőket
 4. Kattints a **"Update"** gombra
@@ -287,55 +298,3 @@ A Nova admin felület a következő fő menüpontokból áll:
 2. Kattints a **"Edit"** gombra
 3. Módosítsd a szükséges mezőket
 4. Kattints a **"Update"** gombra
-
-#### Kétfaktoros hitelesítés visszaállítása:
-- A felhasználó részletei oldalon kattints a **"Reset two-factor auth"** gombra
-
----
-
-## Hasznos tippek
-
-1. **Keresés**: Minden listázó oldalon használhatod a keresőmezőt a gyorsabb navigáláshoz
-2. **Szűrés**: A listákban rendezhetsz oszlopok szerint
-3. **Törlés**: A törlés művelet nem vonható vissza, ezért légy óvatos
-4. **Jogosultságok**: A vendég felhasználók csak korlátozott funkciókhoz férnek hozzá
-5. **PDF generálás**: A rendelések és konyha rendelések PDF formátumban letölthetők
-
----
-
-## Hibaelhárítás
-
-### Gyakori problémák:
-
-1. **"Required field" hiba**: Ellenőrizd, hogy minden kötelező mezőt kitöltöttél
-2. **"Unique constraint" hiba**: A kód vagy email már létezik, használj másikat
-3. **Nincs jogosultság**: Ellenőrizd a felhasználói szerepkörödet
-4. **Nem található oldal**: Frissítsd a böngészőt vagy ellenőrizd az internetkapcsolatot
-
-Ha további segítségre van szükséged, fordulj a rendszergazdához.
-
----
-
-## Technikai információk
-
-- **Framework**: Laravel
-- **Admin Panel**: Laravel Nova
-- **Adatbázis**: SQLite
-- **PHP verzió**: 8.1+
-- **Docker**: Támogatott
-
-### Telepítés
-
-```bash
-# Függőségek telepítése
-composer install
-
-# Adatbázis migrálása
-php artisan migrate
-
-# Adatbázis feltöltése
-php artisan db:seed
-
-# Nova admin elérése
-http://localhost/nova
-```
