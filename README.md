@@ -55,11 +55,28 @@ A rendszer modelljei a következő hierarchikus struktúrában kapcsolódnak egy
 
 ### Üzleti Logika
 
-1. **Cégek/*Szervezetek** több **Intézményt** kezelnek (iskolák/oktatási intézmények)
+1. **Cégek/Szervezetek** több **Intézményt** kezelnek (iskolák/oktatási intézmények)
 2. Minden **Intézmény** több **Diákot** fogad
 3. Minden **Diák** egy specifikus **Diétát** követ (táplálkozási követelmények)
 4. Minden **Diéta** több **Menüvel** kompatibilis (különböző étkezési tervek)
 5. Minden **Menü** több **Ételt** tartalmaz (tényleges élelmiszerek)
+
+## Általános sorrend létrehozásnál:
+
+1. **Cég/Szervezet** létrehozása
+2. **Intézmény** létrehozása és hozzárendelése a **Cég/Szervezethez**
+3. **Diéta** létrehozása
+4. **Diák** létrehozása és hozzárendelése **Intézményhez** és **Diétához** (diéta nélkül nem lehet diákot létrehozni)
+5. **Ételek** létrehozása
+6. **Menü** létrehozása és az **Ételek* hozzárendelése a **Menühöz**
+7. **Menü** hozzárendelése **Diétához**
+8. **Rendelések** generálása.
+
+Amikor a **Cég/Szervezetek**, **Intézmények**, **Diákok**, **Diéták** és az **Ételek** márf fel vannak véve a rendszerben akkor csak a **Menüket** kell managelni egy napon ami így néz ki:
+
+1. **Menü** létrehozása és az **Ételek* hozzárendelése a **Menühöz**
+2.  **Menü** hozzárendelése **Diétához**
+3.  **Rendelések** generálása.
 
 ---
 
@@ -96,24 +113,27 @@ A Nova admin felület a következő fő menüpontokból áll:
 1. Navigálj a **Company Management** → **Companies** menüpontra
 2. Kattints a **"Create Company"** gombra
 3. Töltsd ki a kötelező mezőket:
-   - **Név** (Name) - kötelező
+   - **Név** (Name)
    - **Cím** (Address)
    - **Kapcsolattartó** (Contact Person)
-   - **Email**
+   - **Email** (Email)
    - **Telefon** (Phone)
-4. Kattints a **"Create"** gombra
+4. Kattints a **"Create Company"** gombra.
 
 A Cég/Szervezet részletes nézetében látható a hozzárendelt intézmények listája.
 
 #### Cég szerkesztése:
-1. A cégek listájában kattints a szerkeszteni kívánt cégre
-2. Kattints a **"Edit"** gombra
+1. A cégek listájában kattints a szerkeszteni kívánt cégre 
+    1. a. Vagy a szerkesztés ikonra a lista nézetben, akkor egyből a szerkesztésre ugrik
+2. A részletes nézetben kattints a szerkesztés ikonra a jobb felső sarokban
 3. Módosítsd a szükséges mezőket
-4. Kattints a **"Update"** gombra
+4. Kattints a **"Update Company"** gombra
+5. Ha nem akarsz módosítani kattints a **Cancel** gombra
 
 #### Cég törlése:
-1. A cég részletei oldalon kattints a **"Delete"** gombra
-2. Erősítsd meg a törlést
+1. A cég lista oldalon kattints a kuka ikonra
+    1. a Vagy kattints a törölni kívánt cégre, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
+3. Erősítsd meg a törlést
 
 ---
 
@@ -125,22 +145,25 @@ A Cég/Szervezet részletes nézetében látható a hozzárendelt intézmények 
 1. Navigálj a **Company Management** → **Institutions** menüpontra
 2. Kattints a **"Create Institution"** gombra
 3. Töltsd ki a kötelező mezőket:
-   - **Név** (Name) - kötelező
-   - **Cég** (Company) - kötelező, válassz egy céget a listából
+   - **Név** (Name)
+   - **Cég** (Company) - kötelező, válassz egy céget a listából (céghez hozzárendelés)
    - **Cím** (Address)
-4. Kattints a **"Create"** gombra
+4. Kattints a **"Create Institution"** gombra
 
 Az intézmény részletes nézetében látható a hozzárendelt gyerekek listája.
 
 #### Intézmény szerkesztése:
-1. Az intézmények listájában kattints a szerkeszteni kívánt intézményre
-2. Kattints a **"Edit"** gombra
+1. Az intézmények listájában kattints a szerkeszteni kívánt intézményre 
+    1. a. Vagy a szerkesztés ikonra a lista nézetben, akkor egyből a szerkesztésre ugrik
+2. A részletes nézetben kattints a szerkesztés ikonra a jobb felső sarokban
 3. Módosítsd a szükséges mezőket
-4. Kattints a **"Update"** gombra
+4. Kattints a **"Update Institution"** gombra
+5. Ha nem akarsz módosítani kattints a **Cancel** gombra
 
 #### Intézmény törlése:
-1. Az intézmény részletei oldalon kattints a **"Delete"** gombra
-2. Erősítsd meg a törlést
+1. Az intézmény lista oldalon kattints a kuka ikonra
+    1. a Vagy kattints a törölni kívánt intzéményre, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
+3. Erősítsd meg a törlést
 
 ---
 
@@ -152,26 +175,28 @@ Az intézmény részletes nézetében látható a hozzárendelt gyerekek listáj
 1. Navigálj a **Student Management** → **Students** menüpontra
 2. Kattints a **"Create Student"** gombra
 3. Töltsd ki a kötelező mezőket:
-   - **Intézmény** (Institution) - kötelező, válassz egy intézményt
+   - **Intézmény** (Institution) - kötelező, válaszd ki a listából
    - **Név** (Name) - kötelező
-   - **Diéta** (Diet) - kötelező, válassz egy diétát
-   - **Korosztály** (Age Group) - kötelező
-   - **Étkezési preferenciák** (Meal Preferences) - kötelező
-4. Opcionális mezők:
-   - **Diéta igazolás érvényes -ig** (Diet Certificate Valid Until)
-   - **Inaktív -tól** (Inactive From)
-   - **Inaktív -ig** (Inactive To)
-5. Kattints a **"Create"** gombra
+   - **Diéta** (Diet) - kötelező, válaszd ki a listából
+   - **Korosztály** (Age Group) - kötelező, válaszd ki a listából
+   - **Étkezési preferenciák** (Meal Preferences) - kötelező, jelöld meg melyik étkezéseket kéri a diák
+   - **Diéta igazolás érvényes -ig** (Diet Certificate Valid Until) - ha üresen hagyod azt jelenti, hogy soha nincsen lejárata
+4. Kattints a **"Create Student"** gombra
 
 #### Diák szerkesztése:
-1. A diákok listájában kattints a szerkeszteni kívánt diákra
-2. Kattints a **"Edit"** gombra
+1. A diákok listájában kattints a szerkeszteni kívánt diákra 
+    1. a. Vagy a szerkesztés ikonra a lista nézetben, akkor egyből a szerkesztésre ugrik
+2. A részletes nézetben kattints a szerkesztés ikonra a jobb felső sarokban
 3. Módosítsd a szükséges mezőket
-4. Kattints a **"Update"** gombra
+4. Kattints a **"Update Student"** gombra
+5. Ha nem akarsz módosítani kattints a **Cancel** gombra
+
+Szerkesztésnél van lehetőség beállítani a diák hiányzását **Inactive From/To**.
 
 #### Diák törlése:
-1. A diák részletei oldalon kattints a **"Delete"** gombra
-2. Erősítsd meg a törlést
+1. A diákok lista oldalon kattints a kuka ikonra
+    1. a Vagy kattints a törölni kívánt diákra, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
+3. Erősítsd meg a törlést
 
 ---
 
@@ -184,18 +209,23 @@ Az intézmény részletes nézetében látható a hozzárendelt gyerekek listáj
 2. Kattints a **"Create Food"** gombra
 3. Töltsd ki a kötelező mezőket:
    - **Név** (Name) - kötelező
-   - **Kód** (Code) - kötelező, egyedi kell legyen
-4. Opcionális mezők:
+   - **Kód** (Code) - kötelező, egyedi kell legyen (nem lehet ismétlődés)
    - **Összetevők** (Ingredients)
    - **Allergének** (Allergens)
-5. Kattints a **"Create"** gombra
+4. Kattints a **"Create Food"** gombra
 
 #### Étel szerkesztése:
-1. Az ételek listájában kattints a szerkeszteni kívánt ételre
-2. Kattints a **"Edit"** gombra
+1. Az ételek listájában kattints a szerkeszteni kívánt ételre 
+    1. a. Vagy a szerkesztés ikonra a lista nézetben, akkor egyből a szerkesztésre ugrik
+2. A részletes nézetben kattints a szerkesztés ikonra a jobb felső sarokban
 3. Módosítsd a szükséges mezőket
-4. Kattints a **"Update"** gombra
+4. Kattints a **"Update Food"** gombra
+5. Ha nem akarsz módosítani kattints a **Cancel** gombra
 
+#### Étel törlése:
+1. Az ételek lista oldalon kattints a kuka ikonra
+    1. a Vagy kattints a törölni kívánt ételre, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
+3. Erősítsd meg a törlést
 
 ### 5. Diéták (Diets)
 
@@ -205,14 +235,29 @@ Az intézmény részletes nézetében látható a hozzárendelt gyerekek listáj
 3. Töltsd ki a kötelező mezőket:
    - **Név** (Name) - kötelező
    - **Leírás** (Description)
-   - **Hozzárendelt menük** (Assigned Menus) - kötelező, válassz menüket
-4. Kattints a **"Create"** gombra
+4. Kattints a **"Create Diet"** gombra
+
+A Diéta részletes nézetében látható a hozzárendelt menük listája.
+
+#### Menü hozzárendelése a Diétához
+1. A diéták listájában kattints a kívánt diétára
+2. A részletes nézetben az adatok alatt látható a diétához tartozó menük listája
+3. Kattints az **Attach Menu** gombra, új menu hozzáadásához
+4. Válaszd ki a listából a kívánt menüt
+5. Kattints a **"Attach Menu"** gombra
 
 #### Diéta szerkesztése:
-1. A diéták listájában kattints a szerkeszteni kívánt diétára
-2. Kattints a **"Edit"** gombra
+1. A diéták listájában kattints a szerkeszteni kívánt diétára 
+    1. a. Vagy a szerkesztés ikonra a lista nézetben, akkor egyből a szerkesztésre ugrik
+2. A részletes nézetben kattints a szerkesztés ikonra a jobb felső sarokban
 3. Módosítsd a szükséges mezőket
-4. Kattints a **"Update"** gombra
+4. Kattints a **"Update Diet"** gombra
+5. Ha nem akarsz módosítani kattints a **Cancel** gombra
+
+#### Diéta törlése:
+1. A diéták lista oldalon kattints a kuka ikonra
+    1. a Vagy kattints a törölni kívánt diétára, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
+3. Erősítsd meg a törlést
 
 ### 6. Menük (Menus)
 
@@ -223,16 +268,36 @@ Az intézmény részletes nézetében látható a hozzárendelt gyerekek listáj
    - **Név** (Name) - kötelező
    - **Leírás** (Description)
    - **Dátum** (Date) - kötelező
-   - **Hozzárendelt ételek** (Assigned Foods) - kötelező
-4. Minden hozzárendelt ételhez meg kell adni:
-   - **Étkezés típusa** (Meal Type) - kötelező
-5. Kattints a **"Create"** gombra
+4. Kattints a **"Create"** gombra
+
+Célszerű a menüket egy adott napra elkészíteni és aszerint elnevezni vagy legalább a "description"-ben feltüntetni, könnyebb lesz a diétához hozzárendelésnél kiválasztani.
+A Menü részletes nézetében látható a hozzárendelt ételek listája étkezések alapján.
+
+#### Ételek hozzárendelése a Menühöz étkezések alapján
+1. A menük listájában kattints a kívánt menüre
+2. A részletes nézetben az adatok alatt látható a menühöz tartozó ételek listája
+3. Kattints az **Attach Food** gombra, új étel hozzáadásához
+4. Töltsd ki a kötelező mezőket:
+    - **Hozzárendelt étel** (Assigned Food) - kötelező, listából válaszd ki az ételt
+    - **Étkezés típusa** (Meal Type) - kötelező, listából válaszd ki, hogy az adott étel melyik étkezést tölti majd be
+5. Kattints a **"Attach Food"** gombra
+6. Ismételd meg azt, ameddig az összes étkezéshez nem rendeltél hozzá ételt a menüben
+
+Tehát a menü tartalmazni fogja az adott napra szánt ételeket étkezések alapján, a menüket előre is el lehet készíteni.
+Az adott diák azokat az ételeket fogja kapni, ami a diétája alapján az adott napon a menüben szerepel.
 
 #### Menü szerkesztése:
-1. A menük listájában kattints a szerkeszteni kívánt menüre
-2. Kattints a **"Edit"** gombra
+1. A menük listájában kattints a szerkeszteni kívánt menüre 
+    1. a. Vagy a szerkesztés ikonra a lista nézetben, akkor egyből a szerkesztésre ugrik
+2. A részletes nézetben kattints a szerkesztés ikonra a jobb felső sarokban
 3. Módosítsd a szükséges mezőket
-4. Kattints a **"Update"** gombra
+4. Kattints a **"Update Menu"** gombra
+5. Ha nem akarsz módosítani kattints a **Cancel** gombra
+
+#### Menü törlése:
+1. A menük lista oldalon kattints a kuka ikonra
+    1. a Vagy kattints a törölni kívánt menüre, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
+3. Erősítsd meg a törlést
 
 ---
 
