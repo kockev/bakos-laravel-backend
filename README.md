@@ -68,13 +68,13 @@ A rendszer modelljei a következő hierarchikus struktúrában kapcsolódnak egy
 3. **Diéta** létrehozása
 4. **Diák** létrehozása és hozzárendelése **Intézményhez** és **Diétához** (diéta nélkül nem lehet diákot létrehozni)
 5. **Ételek** létrehozása
-6. **Menü** létrehozása és az **Ételek* hozzárendelése a **Menühöz**
+6. **Menü** létrehozása és az **Ételek** hozzárendelése a **Menühöz** (itt van lehetőség az ételeket étkezés alapján felvinni)
 7. **Menü** hozzárendelése **Diétához**
 8. **Rendelések** generálása.
 
 Amikor a **Cég/Szervezetek**, **Intézmények**, **Diákok**, **Diéták** és az **Ételek** márf fel vannak véve a rendszerben akkor csak a **Menüket** kell managelni egy napon ami így néz ki:
 
-1. **Menü** létrehozása és az **Ételek* hozzárendelése a **Menühöz**
+1. **Menü** létrehozása és az **Ételek** hozzárendelése a **Menühöz**
 2.  **Menü** hozzárendelése **Diétához**
 3.  **Rendelések** generálása.
 
@@ -120,7 +120,7 @@ A Nova admin felület a következő fő menüpontokból áll:
    - **Telefon** (Phone)
 4. Kattints a **"Create Company"** gombra.
 
-A Cég/Szervezet részletes nézetében látható a hozzárendelt intézmények listája.
+- A Cég/Szervezet részletes nézetében látható a hozzárendelt intézmények listája.
 
 #### Cég szerkesztése:
 1. A cégek listájában kattints a szerkeszteni kívánt cégre 
@@ -150,7 +150,7 @@ A Cég/Szervezet részletes nézetében látható a hozzárendelt intézmények 
    - **Cím** (Address)
 4. Kattints a **"Create Institution"** gombra
 
-Az intézmény részletes nézetében látható a hozzárendelt gyerekek listája.
+- Az intézmény részletes nézetében látható a hozzárendelt gyerekek listája.
 
 #### Intézmény szerkesztése:
 1. Az intézmények listájában kattints a szerkeszteni kívánt intézményre 
@@ -191,7 +191,7 @@ Az intézmény részletes nézetében látható a hozzárendelt gyerekek listáj
 4. Kattints a **"Update Student"** gombra
 5. Ha nem akarsz módosítani kattints a **Cancel** gombra
 
-Szerkesztésnél van lehetőség beállítani a diák hiányzását **Inactive From/To**.
+- Szerkesztésnél van lehetőség beállítani a diák hiányzását **Inactive From/To**.
 
 #### Diák törlése:
 1. A diákok lista oldalon kattints a kuka ikonra
@@ -213,6 +213,8 @@ Szerkesztésnél van lehetőség beállítani a diák hiányzását **Inactive F
    - **Összetevők** (Ingredients)
    - **Allergének** (Allergens)
 4. Kattints a **"Create Food"** gombra
+
+- Az ételeket a **Menü**-ben lehet majd étkezések alapján felvenni a menübe.
 
 #### Étel szerkesztése:
 1. Az ételek listájában kattints a szerkeszteni kívánt ételre 
@@ -237,7 +239,7 @@ Szerkesztésnél van lehetőség beállítani a diák hiányzását **Inactive F
    - **Leírás** (Description)
 4. Kattints a **"Create Diet"** gombra
 
-A Diéta részletes nézetében látható a hozzárendelt menük listája.
+- A Diéta részletes nézetében látható a hozzárendelt menük listája.
 
 #### Menü hozzárendelése a Diétához
 1. A diéták listájában kattints a kívánt diétára
@@ -270,8 +272,25 @@ A Diéta részletes nézetében látható a hozzárendelt menük listája.
    - **Dátum** (Date) - kötelező
 4. Kattints a **"Create"** gombra
 
-Célszerű a menüket egy adott napra elkészíteni és aszerint elnevezni vagy legalább a "description"-ben feltüntetni, könnyebb lesz a diétához hozzárendelésnél kiválasztani.
-A Menü részletes nézetében látható a hozzárendelt ételek listája étkezések alapján.
+- Célszerű a menüket egy adott napra elkészíteni és aszerint elnevezni vagy legalább a "description"-ben feltüntetni, könnyebb lesz a diétához hozzárendelésnél kiválasztani.
+- A Menü részletes nézetében látható a hozzárendelt ételek listája étkezések alapján.
+- Példa:
+Name: Hétfő_Tejmentes - célszerű a névben is megadni a napot, mert a listából név alapján lehet kiválasztani a diétához rendelés során
+Description: Hétfői menü - ha már a névben szerepel itt nem kötelező felüntetni 
+Date: 2025-09-01
+
+- Ez a menü szeptember elsején lesz érvényben, de akára újra fel lehet használni, ehez csak a dátumot kell megváltoztatni, ha már hozzá van rendelve a diétához, akkor minidg csak
+a dátumokat kell változtatgatni vagy még a menühöz hozzárendelt ételeken lehet variálni.
+- Akár A,B,C,D heteket is ltre lehet hozni.
+- Példa:
+Name: Hétfő_Tejmentes_A
+Description: A hét - Hétfő
+Date: 2025-09-01
+Name: Hétfő_Tejmentes_B
+Description: B hét - Hétfő
+Date: 2025-09-07
+
+- Ezzel a módszerrel több hétre előre meg meg lehet a menüket készíteni és utána forgatni a heteket a dátumok és az ételek módosításával. Természetesen ez csak egy lehetőség, egyedi mnkamódszereeket is lehet alkalmazni.
 
 #### Ételek hozzárendelése a Menühöz étkezések alapján
 1. A menük listájában kattints a kívánt menüre
@@ -283,8 +302,8 @@ A Menü részletes nézetében látható a hozzárendelt ételek listája étkez
 5. Kattints a **"Attach Food"** gombra
 6. Ismételd meg azt, ameddig az összes étkezéshez nem rendeltél hozzá ételt a menüben
 
-Tehát a menü tartalmazni fogja az adott napra szánt ételeket étkezések alapján, a menüket előre is el lehet készíteni.
-Az adott diák azokat az ételeket fogja kapni, ami a diétája alapján az adott napon a menüben szerepel.
+- Tehát a menü tartalmazni fogja az adott napra szánt ételeket étkezések alapján, a menüket előre is el lehet készíteni.
+- Az adott diák azokat az ételeket fogja kapni, ami a diétája alapján az adott napon a menüben szerepel.
 
 #### Menü szerkesztése:
 1. A menük listájában kattints a szerkeszteni kívánt menüre 
@@ -309,37 +328,45 @@ Az adott diák azokat az ételeket fogja kapni, ami a diétája alapján az adot
 1. Navigálj a **Order Management** → **Orders** menüpontra
 2. Kattints a **"Create Order"** gombra
 3. Töltsd ki a kötelező mezőket:
-   - **Név** (Name)
-   - **Intézmény** (Institution) - kötelező
-4. A rendelés létrehozása után:
-   - Hozzáadhatsz diákokat a rendeléshez
-   - Megadhatod az ételek mennyiségét
-5. Kattints a **"Create"** gombra
+   - **Dátum** (Date)
+4. Kattints a **"Confirm"** gombra
+
+- Intézményenként legenerálja a rendeléseket a kiválaszott napra, tehát akár előre pár nappal is le lehet generálni a rendeléseket. 
+- FONTOS - a kiválaszott napra el kell készíteni a menüket is, különben nem jól fogja az adagokat kiszámolni, ha nincsen az adott napra az adott diétához menü hozzárendelve, akkor nem számolja bele az adagokat.
+- Ha egy diák hiányzik, akkor meg fog jelenni áthúzva a rendelési listában, a hiányzó gyerek ételeit nem fogja beleszámolni az adagokba.
+- A generált rendeléseket név és dátum alapján lehet beazonosítani pl: ORDER_OF_Kindergarten 1_2025-09-01_Monday, mivel egy napra többször is le lehet generálni a rendeléseket, ezért lehet hogy 3 vagy 4 rendelés is lesz ugyanazzal a névvel, a megkülönböztetéshez a created_at dátum ad segítséget, az alapján lehet meghatározni, melyik volt legutoljára legenerálva + a listában is mindig a legfrissebbek lesznek elöl.
+ -FONTOS - az összefűzött PDF letöltés - Download Combined PDF - mindig a kiválaszott nap legfrissebb rendeléseit fogja összefűzni és letölteni, érdemes minden rendelés generálás után letölteni ezt.
+- Ha pl van egy adott napra már 3 generált rendelés akkor az utolsót rendeléseket fűzi össze és tölti le.
+- A részletes nézetben látható az összes adag étel (kis és nagyétkezések), a gyerekek listája, milyen étkezésük van, miket esznek és ezeknek az összesítése.
 
 #### Rendelés szerkesztése:
-1. A rendelések listájában kattints a szerkeszteni kívánt rendelésre
-2. Kattints a **"Edit"** gombra
+1. A rendelések listájában kattints a szerkeszteni kívánt rendelésre 
+    1. a. Vagy a szerkesztés ikonra a lista nézetben, akkor egyből a szerkesztésre ugrik
+2. A részletes nézetben kattints a szerkesztés ikonra a jobb felső sarokban
 3. Módosítsd a szükséges mezőket
-4. Kattints a **"Update"** gombra
+4. Kattints a **"Update Order"** gombra
+5. Ha nem akarsz módosítani kattints a **Cancel** gombra
+
+-Csak a rendelés neve módosítható, az adagok nem módosíthatók, célszerű újra generálni a rendelést ebben az esetben, vagy a kinyomtatott verzióban kézzel kijavítani, ha úgy adódik.
+
+#### Rendelés törlése:
+1. A menük lista oldalon kattints a kuka ikonra
+    1. a Vagy kattints a törölni kívánt menüre, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
+3. Erősítsd meg a törlést
 
 #### Rendelés PDF letöltése:
-- **Kombinált PDF** (Combined PDF)
+- **Kombinált PDF** (Download Combined PDF) - Ez a lista nézetben a jobb felső sarokban található gomb.
 - **Nagy adag PDF** (Big Meal PDF)
 - **Kis adag PDF** (Small Meal PDF)
+
+- A kombinált PDF letöltésnél minden intézmény 2 darab PDF-el rendelkezik, a kis és nagy étkezések külön oldalakon vannak.
+- A PDF-ek intézményenként külön is letölthetőek -> részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki Download Big/Small meal
 
 ### 8. Konyha rendelések (Kitchen Orders)
 
-#### Új konyha rendelés létrehozása:
-1. Navigálj a **Order Management** → **Kitchen Orders** menüpontra
-2. Kattints a **"Create Kitchen Order"** gombra
-3. Töltsd ki a kötelező mezőket:
-   - **Név** (Name)
-4. A konyha rendelés létrehozása után hozzáadhatod az ételeket
-5. Kattints a **"Create"** gombra
-
-#### Konyha rendelés PDF letöltése:
-- **Nagy adag PDF** (Big Meal PDF)
-- **Kis adag PDF** (Small Meal PDF)
+- A konyhai rendelések ugyanúgy működnek és ugyanazokkal a szabályokkal, mint a rendes rendelések, annyi a különbség, hogy itt nincsenek intézményekre lebontva.
+- Mivel nincsenek intézmények, így nincsen kombinált PDF sem.
+- Egy összesítést tartalmaz az összes aznapi adag ételről.
 
 ---
 
@@ -352,14 +379,23 @@ Az adott diák azokat az ételeket fogja kapni, ami a diétája alapján az adot
 2. Kattints a **"Create User"** gombra
 3. Töltsd ki a kötelező mezőket:
    - **Név** (Name)
-   - **Intézmény** (Institution) - kötelező
+   - **Intézmény** (Institution) - kötelező - super admin esetében is kötelező de nincsen jelentőssége
    - **Email**
    - **Jelszó** (Password)
    - **Szerepkör** (Role) - kötelező
 4. Kattints a **"Create"** gombra
 
+- A jelszó alatt található **Suggested Secure Password** mezőben egy autómatikusan generált biztonságos jelsz ajánlás található, ezt be lehet másolni a **Password** mezőbe, érdemes használni.
+
 #### Felhasználó szerkesztése:
-1. A felhasználók listájában kattints a szerkeszteni kívánt felhasználóra
-2. Kattints a **"Edit"** gombra
+1. A felhasználók listájában kattints a szerkeszteni kívánt felhasználóra 
+    1. a. Vagy a szerkesztés ikonra a lista nézetben, akkor egyből a szerkesztésre ugrik
+2. A részletes nézetben kattints a szerkesztés ikonra a jobb felső sarokban
 3. Módosítsd a szükséges mezőket
-4. Kattints a **"Update"** gombra
+4. Kattints a **"Update Order"** gombra
+5. Ha nem akarsz módosítani kattints a **Cancel** gombra
+
+#### Felhasználó törlése:
+1. A menük lista oldalon kattints a kuka ikonra
+    1. a Vagy kattints a törölni kívánt menüre, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
+3. Erősítsd meg a törlést
