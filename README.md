@@ -347,7 +347,7 @@ Date: 2025-09-07
 4. Kattints a **"Update Order"** gombra
 5. Ha nem akarsz módosítani kattints a **Cancel** gombra
 
--Csak a rendelés neve módosítható, az adagok nem módosíthatók, célszerű újra generálni a rendelést ebben az esetben, vagy a kinyomtatott verzióban kézzel kijavítani, ha úgy adódik.
+- Csak a rendelés neve módosítható, az adagok nem módosíthatók, célszerű újra generálni a rendelést ebben az esetben, vagy a kinyomtatott verzióban kézzel kijavítani, ha úgy adódik.
 
 #### Rendelés törlése:
 1. A menük lista oldalon kattints a kuka ikonra
