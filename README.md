@@ -276,21 +276,26 @@ A Nova admin felület a következő fő menüpontokból áll:
 - A Menü részletes nézetében látható a hozzárendelt ételek listája étkezések alapján.
 
 Példa:
-**Name:** Hétfő_Tejmentes - célszerű a névben is megadni a napot, mert a listából név alapján lehet kiválasztani a diétához rendelés során
-**Description:** Hétfői menü - ha már a névben szerepel itt nem kötelező felüntetni 
-**Date:** 2025-09-01
+
+**Name:** Hétfő_Tejmentes  
+_célszerű a névben is megadni a napot, mert a listából név alapján lehet kiválasztani a diétához rendelés során_  
+**Description:** Hétfői menü  
+_ha már a névben szerepel itt nem kötelező felüntetni_  
+**Date:** 2025-09-01  
 
 - Ez a menü szeptember elsején lesz érvényben, de akára újra fel lehet használni, ehez csak a dátumot kell megváltoztatni, ha már hozzá van rendelve a diétához, akkor minidg csak
 a dátumokat kell változtatgatni vagy még a menühöz hozzárendelt ételeken lehet variálni.
 - Akár A,B,C,D heteket is ltre lehet hozni.
 
 Példa:
-**Name:** Hétfő_Tejmentes_A
-**Description:** A hét - Hétfő
-**Date:** 2025-09-01
-**Name:** Hétfő_Tejmentes_B
-**Description:** B hét - Hétfő
-**Date:** 2025-09-07
+
+**Name:** Hétfő_Tejmentes_A  
+**Description:** A hét - Hétfő  
+**Date:** 2025-09-01  
+
+**Name:** Hétfő_Tejmentes_B  
+**Description:** B hét - Hétfő  
+**Date:** 2025-09-07  
 
 - Ezzel a módszerrel több hétre előre meg meg lehet a menüket készíteni és utána forgatni a heteket a dátumok és az ételek módosításával. Természetesen ez csak egy lehetőség, egyedi mnkamódszereeket is lehet alkalmazni.
 
