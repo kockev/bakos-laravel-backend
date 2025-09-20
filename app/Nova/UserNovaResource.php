@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
@@ -87,9 +88,7 @@ class UserNovaResource extends Resource
                     ->onlyOnForms(),
 
             Text::make('Suggested Secure Password')
-                ->default(function ($request) {
-                    return Str::random(15);
-                })
+                ->resolveUsing(fn() => Str::random(15))
                 ->readonly()
                 ->onlyOnForms()
                 ->help('Use this if you want to assign a secure password.'),
@@ -134,10 +133,12 @@ class UserNovaResource extends Resource
                 ->onlyOnDetail(),
 
             DateTime::make('Updated At', 'updated_at')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 
             DateTime::make('Created At', 'created_at')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 

@@ -7,6 +7,7 @@ use App\Nova\Actions\CreateOrderNovaAction;
 use App\Nova\Actions\DownloadOrderBigMealPdfNovaAction;
 use App\Nova\Actions\DownloadOrderCombinedPdfNovaAction;
 use App\Nova\Actions\DownloadOrderSmallMealPdfNovaAction;
+use Carbon\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
@@ -88,15 +89,17 @@ class OrderNovaResource extends Resource
                      ->onlyOnDetail(),
 
             Date::make('Order date', 'order_date')
+                ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                 ->readonly()
                 ->hideWhenCreating(),
 
             DateTime::make('Updated At', 'updated_at')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 
             DateTime::make('Created At', 'created_at')
-                    ->onlyOnDetail()
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->readonly(),
 
             HasMany::make('Students', 'orderStudents', OrderStudentNovaResource::class),

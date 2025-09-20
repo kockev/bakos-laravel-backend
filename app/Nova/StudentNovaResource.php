@@ -128,12 +128,14 @@ class StudentNovaResource extends Resource
                          ->readonly(),
 
                 Date::make('Hiányzik (-tól)', 'inactive_from')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                     ->hideWhenCreating()
                     ->hideFromIndex()
                     ->min($minDate)
                     ->max(Carbon::today()->addWeek(1)),
 
                 Date::make('Hiányzik (-ig)', 'inactive_to')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                     ->hideWhenCreating()
                     ->hideFromIndex()
                     ->min($minDate)
@@ -185,7 +187,7 @@ class StudentNovaResource extends Resource
                                 ->toArray()
                         )
                         ->fillUsing(function ($request, $model, $attribute, $requestAttribute) {
-                            $rawData = $request->input('meal_preferences', []);
+                            $rawData        = $request->input('meal_preferences', []);
                             $dataCollection = collect(json_decode($rawData, true));
 
                             // Filter out unchecked (false) items and validate against MealTypeEnum
@@ -211,20 +213,23 @@ class StudentNovaResource extends Resource
                             // Map enum values to booleans
                             return collect(MealTypeEnum::values())
                                 ->mapWithKeys(fn($mealType) => [
-                                    $mealType => in_array($mealType, $selectedMeals)
+                                    $mealType => in_array($mealType, $selectedMeals),
                                 ])
                                 ->toArray();
                         })
                         ->rules('required'),
 
             Date::make('Diet Certificate Valid Until', 'diet_certificate_valid_until')
+                ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                 ->hideFromIndex(),
 
             Date::make('Inactive From', 'inactive_from')
+                ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                 ->hideWhenCreating()
                 ->hideFromIndex(),
 
             Date::make('Inactive To', 'inactive_to')
+                ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                 ->hideWhenCreating()
                 ->hideFromIndex(),
 
@@ -233,10 +238,12 @@ class StudentNovaResource extends Resource
                      ->onlyOnDetail(),
 
             DateTime::make('Updated At', 'updated_at')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 
             DateTime::make('Created At', 'created_at')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
         ];
