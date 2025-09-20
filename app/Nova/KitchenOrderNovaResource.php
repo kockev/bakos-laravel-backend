@@ -7,6 +7,7 @@ use App\Nova\Actions\CreateKitchenOrderNovaAction;
 use App\Nova\Actions\DownloadKitchenOrderBigMealPdfNovaAction;
 use App\Nova\Actions\DownloadKitchenOrderPdfNovaAction;
 use App\Nova\Actions\DownloadKitchenOrderSmallMealPdfNovaAction;
+use Carbon\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
@@ -79,6 +80,7 @@ class KitchenOrderNovaResource extends Resource
                 ->sortable(),
 
             Date::make('Cooking date', 'cooking_date')
+                ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                 ->readonly()
                 ->hideWhenCreating(),
 
@@ -87,11 +89,12 @@ class KitchenOrderNovaResource extends Resource
                      ->onlyOnDetail(),
 
             DateTime::make('Updated At', 'updated_at')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 
             DateTime::make('Created At', 'created_at')
-                    ->onlyOnDetail()
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->readonly(),
 
             HasMany::make('Kitchen Order Foods', 'kitchenOrderFoods', KitchenOrderFoodNovaResource::class),

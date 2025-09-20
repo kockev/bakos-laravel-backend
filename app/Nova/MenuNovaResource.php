@@ -2,10 +2,9 @@
 
 namespace App\Nova;
 
-use App\Enums\AgeGroupTypeEnum;
 use App\Enums\MealTypeEnum;
-use App\Models\Food;
 use App\Models\Menu;
+use Carbon\Carbon;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
@@ -89,6 +88,7 @@ class MenuNovaResource extends Resource
                 ->sortable(),
 
             Date::make('Date', 'date')
+                ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                 ->required(),
 
             BelongsToMany::make('Assigned Foods', 'foods', FoodNovaResource::class)

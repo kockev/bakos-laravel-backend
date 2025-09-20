@@ -3,7 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Company;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
@@ -103,10 +103,12 @@ class CompanyNovaResource extends Resource
                      ->onlyOnDetail(),
 
             DateTime::make('Updated At', 'updated_at')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 
             DateTime::make('Created At', 'created_at')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 

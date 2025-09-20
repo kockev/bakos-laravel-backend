@@ -5,10 +5,11 @@ namespace App\Nova;
 use App\Models\Institution;
 use App\Models\User;
 use App\Support\Roles;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -118,10 +119,12 @@ class InstitutionNovaResource extends Resource
                      }),
 
             DateTime::make('Updated At', 'updated_at')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 
             DateTime::make('Created At', 'created_at')
+                    ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 
