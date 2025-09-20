@@ -274,21 +274,23 @@ A Nova admin felület a következő fő menüpontokból áll:
 
 - Célszerű a menüket egy adott napra elkészíteni és aszerint elnevezni vagy legalább a "description"-ben feltüntetni, könnyebb lesz a diétához hozzárendelésnél kiválasztani.
 - A Menü részletes nézetében látható a hozzárendelt ételek listája étkezések alapján.
-- Példa:
-Name: Hétfő_Tejmentes - célszerű a névben is megadni a napot, mert a listából név alapján lehet kiválasztani a diétához rendelés során
-Description: Hétfői menü - ha már a névben szerepel itt nem kötelező felüntetni 
-Date: 2025-09-01
+
+Példa:
+**Name:** Hétfő_Tejmentes - célszerű a névben is megadni a napot, mert a listából név alapján lehet kiválasztani a diétához rendelés során
+**Description:** Hétfői menü - ha már a névben szerepel itt nem kötelező felüntetni 
+**Date:** 2025-09-01
 
 - Ez a menü szeptember elsején lesz érvényben, de akára újra fel lehet használni, ehez csak a dátumot kell megváltoztatni, ha már hozzá van rendelve a diétához, akkor minidg csak
 a dátumokat kell változtatgatni vagy még a menühöz hozzárendelt ételeken lehet variálni.
 - Akár A,B,C,D heteket is ltre lehet hozni.
-- Példa:
-Name: Hétfő_Tejmentes_A
-Description: A hét - Hétfő
-Date: 2025-09-01
-Name: Hétfő_Tejmentes_B
-Description: B hét - Hétfő
-Date: 2025-09-07
+
+Példa:
+**Name:** Hétfő_Tejmentes_A
+**Description:** A hét - Hétfő
+**Date:** 2025-09-01
+**Name:** Hétfő_Tejmentes_B
+**Description:** B hét - Hétfő
+**Date:** 2025-09-07
 
 - Ezzel a módszerrel több hétre előre meg meg lehet a menüket készíteni és utána forgatni a heteket a dátumok és az ételek módosításával. Természetesen ez csak egy lehetőség, egyedi mnkamódszereeket is lehet alkalmazni.
 
@@ -330,12 +332,16 @@ Date: 2025-09-07
 3. Töltsd ki a kötelező mezőket:
    - **Dátum** (Date)
 4. Kattints a **"Confirm"** gombra
+5. Elindul a háttérben egy folyamat, eközben szabadon lehet az oldalon bármit csinálni
+6. Amikor elkészült a rendelés generálás a jobb felső sarokban a csengő ikonnál megjelenik egy értesítés az elkészült rendelésekről
+7. A rendelések listáját frissítsd újra, hogy bitosan megjelenjenek az újonnan generált rendelések
+8. Kattints a **Download Combined PDF** gombra a jobb felső sarokban, hogy biztosan letöltsd az összefűzött rendelés PDF-eket
 
 - Intézményenként legenerálja a rendeléseket a kiválaszott napra, tehát akár előre pár nappal is le lehet generálni a rendeléseket. 
-- FONTOS - a kiválaszott napra el kell készíteni a menüket is, különben nem jól fogja az adagokat kiszámolni, ha nincsen az adott napra az adott diétához menü hozzárendelve, akkor nem számolja bele az adagokat.
+- **FONTOS** - a kiválaszott napra el kell készíteni a menüket is, különben nem jól fogja az adagokat kiszámolni, ha nincsen az adott napra az adott diétához menü hozzárendelve, akkor nem számolja bele az adagokat.
 - Ha egy diák hiányzik, akkor meg fog jelenni áthúzva a rendelési listában, a hiányzó gyerek ételeit nem fogja beleszámolni az adagokba.
 - A generált rendeléseket név és dátum alapján lehet beazonosítani pl: ORDER_OF_Kindergarten 1_2025-09-01_Monday, mivel egy napra többször is le lehet generálni a rendeléseket, ezért lehet hogy 3 vagy 4 rendelés is lesz ugyanazzal a névvel, a megkülönböztetéshez a created_at dátum ad segítséget, az alapján lehet meghatározni, melyik volt legutoljára legenerálva + a listában is mindig a legfrissebbek lesznek elöl.
- -FONTOS - az összefűzött PDF letöltés - Download Combined PDF - mindig a kiválaszott nap legfrissebb rendeléseit fogja összefűzni és letölteni, érdemes minden rendelés generálás után letölteni ezt.
+- **FONTOS** - az összefűzött PDF letöltés - Download Combined PDF - mindig a kiválaszott nap legfrissebb rendeléseit fogja összefűzni és letölteni, érdemes minden rendelés generálás után letölteni ezt.
 - Ha pl van egy adott napra már 3 generált rendelés akkor az utolsót rendeléseket fűzi össze és tölti le.
 - A részletes nézetben látható az összes adag étel (kis és nagyétkezések), a gyerekek listája, milyen étkezésük van, miket esznek és ezeknek az összesítése.
 
@@ -350,12 +356,12 @@ Date: 2025-09-07
 - Csak a rendelés neve módosítható, az adagok nem módosíthatók, célszerű újra generálni a rendelést ebben az esetben, vagy a kinyomtatott verzióban kézzel kijavítani, ha úgy adódik.
 
 #### Rendelés törlése:
-1. A menük lista oldalon kattints a kuka ikonra
-    1. a Vagy kattints a törölni kívánt menüre, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
+1. A rendelések lista oldalon kattints a kuka ikonra
+    1. a Vagy kattints a törölni kívánt rendelésre, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
 3. Erősítsd meg a törlést
 
 #### Rendelés PDF letöltése:
-- **Kombinált PDF** (Download Combined PDF) - Ez a lista nézetben a jobb felső sarokban található gomb.
+- **Kombinált PDF** (Download Combined PDF) - Ez a lista nézetben a jobb felső sarokban található gomb - csak itt elérhető.
 - **Nagy adag PDF** (Big Meal PDF)
 - **Kis adag PDF** (Small Meal PDF)
 
@@ -385,7 +391,7 @@ Date: 2025-09-07
    - **Szerepkör** (Role) - kötelező
 4. Kattints a **"Create"** gombra
 
-- A jelszó alatt található **Suggested Secure Password** mezőben egy autómatikusan generált biztonságos jelsz ajánlás található, ezt be lehet másolni a **Password** mezőbe, érdemes használni.
+- A jelszó alatt található **Suggested Secure Password** mezőben egy autómatikusan generált biztonságos jelszó ajánlás található, ezt be lehet másolni a **Password** mezőbe, érdemes használni.
 
 #### Felhasználó szerkesztése:
 1. A felhasználók listájában kattints a szerkeszteni kívánt felhasználóra 
@@ -396,6 +402,6 @@ Date: 2025-09-07
 5. Ha nem akarsz módosítani kattints a **Cancel** gombra
 
 #### Felhasználó törlése:
-1. A menük lista oldalon kattints a kuka ikonra
-    1. a Vagy kattints a törölni kívánt menüre, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
+1. A felhasználók lista oldalon kattints a kuka ikonra
+    1. a Vagy kattints a törölni kívánt felhasználóra, utána a részletes nézetben a jobb felső sarokban a 3 pontra(...) kattintva válaszd ki a **Delete Resource**-t
 3. Erősítsd meg a törlést
