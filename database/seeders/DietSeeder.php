@@ -45,7 +45,7 @@ class DietSeeder extends Seeder
             'Tej, tojás, szárnyashús, marhahús mentes',
             'Tejmentes',
             'Tejmentes- tojásmentes',
-            'Tojásmentes',
+            'Tojásmentes ',
             'Diabetikus 35 gr',
             'Diabetikus 65 gr',
             'Diab.fruktóz45',
