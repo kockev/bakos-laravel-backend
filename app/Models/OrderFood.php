@@ -27,10 +27,13 @@ class OrderFood extends Model
         'food_name',
         'allergens',
         'quantity',
+        'food_expiration_date',
         'updated_by',
     ];
 
-    protected $casts = [];
+    protected $casts = [
+        'food_expiration_date' => 'date',
+    ];
 
     public function getActivitylogOptions(): LogOptions
     {

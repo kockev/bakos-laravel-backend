@@ -23,11 +23,12 @@ class Menu extends Model
         'name',
         'description',
         'date',
+        'foods_expiration_period_in_days',
         'updated_by',
     ];
 
     protected $casts = [
-        'date' => 'date',
+        'date'                   => 'date',
     ];
 
     public function getActivitylogOptions(): LogOptions

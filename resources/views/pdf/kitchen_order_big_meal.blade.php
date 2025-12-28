@@ -89,11 +89,11 @@
                     <tbody>
                         @php
                             $bigMealTypes = collect(MealTypeEnum::values())->filter(fn($meal) =>
-                                $meal !== MealTypeEnum::BRUNCH->value && $meal !== MealTypeEnum::SNACK->value
+                                $meal !== MealTypeEnum::BRUNCH->value && $meal !== MealTypeEnum::SNACK->value && $meal !== MealTypeEnum::BREAKFAST->value
                             );
                         @endphp
 
-                        @foreach ($order->kitchenOrderFoods->whereIn('meal_type', $bigMealTypes) as $food)
+                        @foreach ($kitchenOrder->kitchenOrderFoods->whereIn('meal_type', $bigMealTypes) as $food)
                             <tr>
                                 <td>{{ MealTypeEnum::label($food->meal_type) }}</td>
                                 <td>{{ $food->quantity }}</td>

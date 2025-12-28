@@ -4,12 +4,14 @@ namespace App\Enums;
 
 enum MealTypeEnum: string
 {
-    case  BRUNCH = 'Brunch';
-    case  LUNCH_SOUP = 'Lunch Soup';
-    case  LUNCH_MAIN = 'Lunch Main';
+    case  BREAKFAST     = 'Breakfast';
+    case  BRUNCH        = 'Brunch';
+    case  LUNCH_SOUP    = 'Lunch Soup';
+    case  LUNCH_MAIN    = 'Lunch Main';
     case  LUNCH_OTHER_1 = 'Lunch Other 1';
     case  LUNCH_OTHER_2 = 'Lunch Other 2';
-    case  SNACK = 'Snack';
+    case  SNACK         = 'Snack';
+    case  DINNER        = 'Dinner';
 
     static function values(): array
     {
@@ -30,12 +32,14 @@ enum MealTypeEnum: string
         }
 
         return match ($mealType) {
-            self::LUNCH_SOUP => 'Leves',
-            self::LUNCH_MAIN => 'Főétel',
+            self::BREAKFAST     => 'Reggeli',
+            self::LUNCH_SOUP    => 'Leves',
+            self::LUNCH_MAIN    => 'Főétel',
             self::LUNCH_OTHER_1 => 'Egyéb 1',
             self::LUNCH_OTHER_2 => 'Egyéb 2',
-            self::BRUNCH => 'Tízórai',
-            self::SNACK => 'Uzsonna',
+            self::BRUNCH        => 'Tízórai',
+            self::SNACK         => 'Uzsonna',
+            self::DINNER        => 'Vacsora',
         };
     }
 }

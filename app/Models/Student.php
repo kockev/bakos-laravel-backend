@@ -58,6 +58,19 @@ class Student extends Model
         return true;
     }
 
+    public function isCertificationDocumentValid(): bool
+    {
+        $today = Carbon::today();
+
+        if (!is_null($this->diet_certificate_valid_until)) {
+            if ($today > $this->diet_certificate_valid_until) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function institution(): BelongsTo
     {
         return $this->belongsTo(Institution::class);

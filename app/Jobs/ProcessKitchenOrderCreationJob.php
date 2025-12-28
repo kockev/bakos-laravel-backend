@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Exports\KitchenOrderStickersExport;
 use App\Models\KitchenOrder;
 use App\Models\Order;
 use App\Models\User;
@@ -15,6 +16,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ProcessKitchenOrderCreationJob
@@ -36,6 +38,7 @@ class ProcessKitchenOrderCreationJob
         // Get the latest orders for the given day, unique institution
         $orders = Order::query()
                        ->where('order_date', $this->orderDate->format('Y-m-d'))
+                       ->with(['orderStudents.orderStudentFoods', 'orderFoods'])
                        ->orderBy('created_at')
                        ->get()
                        ->unique('institution_id')
@@ -58,11 +61,12 @@ class ProcessKitchenOrderCreationJob
 
                         if (!isset($foodSummary[$food->food_code])) {
                             $foodSummary[$food->food_code] = [
-                                'food_code' => $food->food_code,
-                                'food_name' => $food->food_name,
-                                'meal_type' => $food->meal_type,
-                                'allergens' => $food->allergens,
-                                'quantity'  => $food->quantity,
+                                'food_code'            => $food->food_code,
+                                'food_name'            => $food->food_name,
+                                'meal_type'            => $food->meal_type,
+                                'allergens'            => $food->allergens,
+                                'quantity'             => $food->quantity,
+                                'food_expiration_date' => $food->food_expiration_date,
                             ];
                         } else {
                             $foodSummary[$food->food_code]['quantity'] = $foodSummary[$food->food_code]['quantity'] + $food->quantity;
@@ -74,11 +78,12 @@ class ProcessKitchenOrderCreationJob
                 // Save to OrderFood
                 foreach ($foodSummary as $summary) {
                     $kitchenOrder->kitchenOrderFoods()->create([
-                                                                   'meal_type' => $summary['meal_type'],
-                                                                   'food_name' => $summary['food_name'],
-                                                                   'food_code' => $summary['food_code'],
-                                                                   'allergens' => $summary['allergens'],
-                                                                   'quantity'  => $summary['quantity'],
+                                                                   'meal_type'            => $summary['meal_type'],
+                                                                   'food_name'            => $summary['food_name'],
+                                                                   'food_code'            => $summary['food_code'],
+                                                                   'allergens'            => $summary['allergens'],
+                                                                   'quantity'             => $summary['quantity'],
+                                                                   'food_expiration_date' => $summary['food_expiration_date'],
                                                                ]);
                 }
 
@@ -97,6 +102,17 @@ class ProcessKitchenOrderCreationJob
                              ->usingFileName('kitchen_order_small_meal_' . $kitchenOrder->uuid . '.pdf')
                              ->toMediaCollection(KitchenOrder::KITCHEN_ORDER_SMALL_MEAL_PDF);
 
+                // Generate and attach stickers XLS to the kitchen order
+                $excelBinary = Excel::raw(
+                    new KitchenOrderStickersExport($orders),
+                    \Maatwebsite\Excel\Excel::XLSX
+                );
+
+                $kitchenOrder
+                    ->addMediaFromStream($excelBinary)
+                    ->usingFileName('kitchen_order_stickers_' . $kitchenOrder->uuid . '.xlsx')
+                    ->usingName('Kitchen order stickers')
+                    ->toMediaCollection(KitchenOrder::STICKERS_XLS);
             });
         } catch (\Throwable $e) {
             Log::error('Error during kitchen order creation!', [

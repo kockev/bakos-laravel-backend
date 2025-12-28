@@ -166,6 +166,10 @@ class StudentNovaResource extends Resource
                 return $this->isActive();
             })->readonly(),
 
+            Boolean::make('Certification Doc. Valid', function () {
+                return $this->isCertificationDocumentValid();
+            })->readonly(),
+
             BelongsTo::make('Diet', 'diet', DietNovaResource::class)
                      ->displayUsing(function ($diet) {
                          return $diet ? $diet->name : '-';
