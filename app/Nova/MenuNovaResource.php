@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -85,11 +86,26 @@ class MenuNovaResource extends Resource
                 ->required(),
 
             Text::make('Description', 'description')
-                ->sortable(),
+                ->hideFromIndex(),
 
             Date::make('Date', 'date')
                 ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                 ->required(),
+
+            Number::make('Foods Expiration Period (Days)', 'foods_expiration_period_in_days')
+                  ->help('Number of days after the foods in the menu expire')
+                  ->min(0)
+                  ->default(0)
+                  ->textAlign('left'),
+
+            Date::make('Foods Expiration Date', function () {
+                return $this->date->copy()->addDays($this->foods_expiration_period_in_days)->toDateString();
+            })
+                ->displayUsing(function ($value, $resource) {
+                    return $resource->date->copy()->addDays($resource->foods_expiration_period_in_days)->toDateString();
+                })
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
 
             BelongsToMany::make('Assigned Foods', 'foods', FoodNovaResource::class)
                          ->fields(function () {

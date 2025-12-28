@@ -24,6 +24,7 @@ class KitchenOrder extends Model implements HasMedia
 
     const KITCHEN_ORDER_BIG_MEAL_PDF   = 'kitchen-order-big-meal-pdf';
     const KITCHEN_ORDER_SMALL_MEAL_PDF = 'kitchen-order-small-meal-pdf';
+    const STICKERS_XLS                 = 'stickers-xls';
 
     protected $fillable = [
         'uuid',
@@ -50,6 +51,10 @@ class KitchenOrder extends Model implements HasMedia
              ->useDisk(Disk::PUBLIC);
 
         $this->addMediaCollection(self::KITCHEN_ORDER_SMALL_MEAL_PDF)
+             ->singleFile()
+             ->useDisk(Disk::PUBLIC);
+
+        $this->addMediaCollection(self::STICKERS_XLS)
              ->singleFile()
              ->useDisk(Disk::PUBLIC);
     }

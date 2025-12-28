@@ -110,11 +110,12 @@
                 <table class="table">
                     <thead>
                         <tr class="title-row">
-                            <th colspan="4">Ellátottak</th>
+                            <th colspan="5">Ellátottak</th>
                         </tr>
                         <tr>
                             <th>Ellátott neve</th>
                             <th>Diéta Típusa</th>
+                            <th>Reggeli</th>
                             <th>Tízórai</th>
                             <th>Uzsonna</th>
                         </tr>
@@ -122,7 +123,7 @@
                     <tbody>
                         @php
                             $smallMealTypes = collect(MealTypeEnum::values())->filter(fn($meal) =>
-                                $meal == MealTypeEnum::BRUNCH->value || $meal == MealTypeEnum::SNACK->value
+                                $meal == MealTypeEnum::BRUNCH->value || $meal == MealTypeEnum::SNACK->value || $meal == MealTypeEnum::BREAKFAST->value
                             );
                         @endphp
 

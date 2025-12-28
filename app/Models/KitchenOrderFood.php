@@ -30,8 +30,6 @@ class KitchenOrderFood extends Model
         'updated_by',
     ];
 
-    protected $casts = [];
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

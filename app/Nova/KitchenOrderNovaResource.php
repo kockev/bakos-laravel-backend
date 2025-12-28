@@ -7,6 +7,7 @@ use App\Nova\Actions\CreateKitchenOrderNovaAction;
 use App\Nova\Actions\DownloadKitchenOrderBigMealPdfNovaAction;
 use App\Nova\Actions\DownloadKitchenOrderPdfNovaAction;
 use App\Nova\Actions\DownloadKitchenOrderSmallMealPdfNovaAction;
+use App\Nova\Actions\DownloadStickersXlsNovaAction;
 use Carbon\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -150,6 +151,8 @@ class KitchenOrderNovaResource extends Resource
             DownloadKitchenOrderBigMealPdfNovaAction::make(),
 
             DownloadKitchenOrderSmallMealPdfNovaAction::make(),
+
+            DownloadStickersXlsNovaAction::make(),
         ];
     }
 }
