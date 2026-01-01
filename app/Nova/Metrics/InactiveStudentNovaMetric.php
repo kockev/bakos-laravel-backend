@@ -30,13 +30,9 @@ class InactiveStudentNovaMetric extends Value
         $today = Carbon::today();
 
         return $this->result(
-            Student::where(function ($query) use ($today) {
-                $query->whereNotNull('inactive_from')
-                      ->whereNotNull('inactive_to')
-                      ->where(function ($query) use ($today) {
-                          $query->where('inactive_from', '<=', $today)
-                                ->where('inactive_to', '>=', $today);
-                      });
+            Student::whereHas('inactivePeriods', function ($query) use ($today) {
+                $query->where('inactive_from', '<=', $today)
+                      ->where('inactive_to', '>=', $today);
             })->count()
         );
     }

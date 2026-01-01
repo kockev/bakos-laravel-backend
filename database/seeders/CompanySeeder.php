@@ -12,13 +12,14 @@ class CompanySeeder extends Seeder
         $companies = [
             'FRESHQO KFT. SZABADSZÁLLÁS',
             'HIRÖS KFT.',
-            'HELVÉCIA DIÉTA',
+            'RÁKÓCZI KONYHA',
             'KECSKEMÉT VÁROS ÖNKORMÁNYZAT',
             'BALLÓSZÖG VÁROS ÖNKORMÁNYZAT',
             'KECSKEMÉTI REFORMÁTUS GIMNÁZIUM',
             'PRECÍZ KFT.',
             'HOMOKHÁTSÁG NONPROFIT KFT.',
             'RÉV SZENVEDÉLYBETEG-SEGÍTŐ SZOLGÁLAT',
+            'BAKOS BT.',
         ];
 
         foreach ($companies as $company) {

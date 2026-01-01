@@ -28,15 +28,11 @@ class Student extends Model
         'age_group',
         'diet_id',
         'diet_certificate_valid_until',
-        'inactive_from',
-        'inactive_to',
         'updated_by',
     ];
 
     protected $casts = [
         'age_group'                    => AgeGroupTypeEnum::class,
-        'inactive_from'                => 'date',
-        'inactive_to'                  => 'date',
         'diet_certificate_valid_until' => 'date',
     ];
 
@@ -51,11 +47,10 @@ class Student extends Model
     {
         $today = Carbon::today();
 
-        if (!is_null($this->inactive_from) && !is_null($this->inactive_to)) {
-            return !$today->between($this->inactive_from, $this->inactive_to);
-        }
-
-        return true;
+        return !$this->inactivePeriods()
+                     ->where('inactive_from', '<=', $today)
+                     ->where('inactive_to', '>=', $today)
+                     ->exists();
     }
 
     public function isCertificationDocumentValid(): bool
@@ -84,6 +79,11 @@ class Student extends Model
     public function mealPreferences(): HasMany
     {
         return $this->hasMany(StudentMealPreference::class, 'student_id');
+    }
+
+    public function inactivePeriods(): HasMany
+    {
+        return $this->hasMany(StudentInactivePeriod::class)->orderBy('inactive_from', 'desc');;
     }
 
     public function updatedBy(): BelongsTo

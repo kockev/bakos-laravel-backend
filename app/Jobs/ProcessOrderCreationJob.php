@@ -112,7 +112,7 @@ class ProcessOrderCreationJob implements ShouldQueue
 
                 if ($menu) {
                     // Get experation date of the foods in the menu
-                    $foodExpirationDate = $this->orderDate->copy()->addDays($menu->foods_expiration_period_in_days);
+                    $foodExpirationDate = $this->orderDate->copy()->addWeekdays($menu->foods_expiration_period_in_days);
 
                     // Get matching food for this meal type
                     $food = $menu->foods->firstWhere('pivot.meal_type', $meal->meal_type->value);
