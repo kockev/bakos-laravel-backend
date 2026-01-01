@@ -14,6 +14,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BooleanGroup;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -227,16 +228,6 @@ class StudentNovaResource extends Resource
                 ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                 ->hideFromIndex(),
 
-            Date::make('Inactive From', 'inactive_from')
-                ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
-                ->hideWhenCreating()
-                ->hideFromIndex(),
-
-            Date::make('Inactive To', 'inactive_to')
-                ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
-                ->hideWhenCreating()
-                ->hideFromIndex(),
-
             BelongsTo::make('Updated by', 'updatedBy', UserNovaResource::class)
                      ->viewable(false)
                      ->onlyOnDetail(),
@@ -250,6 +241,10 @@ class StudentNovaResource extends Resource
                     ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
+
+            HasMany::make('Inactive Periods', 'inactivePeriods', StudentInactivePeriodNovaResource::class)
+                   ->hideWhenCreating()
+                   ->hideFromIndex(),
         ];
     }
 
