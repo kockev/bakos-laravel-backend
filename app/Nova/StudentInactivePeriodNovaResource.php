@@ -2,7 +2,9 @@
 
 namespace App\Nova;
 
+use App\Models\GeneralSettings;
 use App\Models\StudentInactivePeriod;
+use App\Support\Roles;
 use Carbon\Carbon;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -19,7 +21,7 @@ class StudentInactivePeriodNovaResource extends Resource
 
     public static function singularLabel(): string
     {
-        return 'Period';
+        return __('Period');
     }
 
     public static function indexQuery(NovaRequest $request, $query)
@@ -29,19 +31,43 @@ class StudentInactivePeriodNovaResource extends Resource
 
     public function fields(NovaRequest $request)
     {
-        return [
-            BelongsTo::make('Student', 'student', StudentNovaResource::class)
+        $isGuest = $request->user()->hasRole(Roles::GUEST);
+
+        /** @var GeneralSettings $generalSettings */
+        $generalSettings = app(GeneralSettings::class);
+        $minDate         = Carbon::now() < $generalSettings->student_edit_closing_time ? Carbon::today() : Carbon::tomorrow();
+
+        $fields = [
+            BelongsTo::make($isGuest ? 'Diák' : 'Student', 'student', StudentNovaResource::class)
                      ->readonly(),
-
-            Date::make('Inactive From', 'inactive_from')
-                ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
-                ->required()
-                ->rules('required', 'date', 'before_or_equal:inactive_to'),
-
-            Date::make('Inactive To', 'inactive_to')
-                ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
-                ->required()
-                ->rules('required', 'date', 'after_or_equal:inactive_from'),
         ];
+
+        if ($isGuest) {
+            $fields[] = Date::make(__('Inactive From'), 'inactive_from')
+                            ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
+                            ->required()
+                            ->min($minDate)
+                            ->max(Carbon::today()->addWeek(1))
+                            ->rules('required', 'date', 'before_or_equal:inactive_to');
+
+            $fields[] = Date::make(__('Inactive To'), 'inactive_to')
+                            ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
+                            ->required()
+                            ->min($minDate)
+                            ->max(Carbon::today()->addWeek(1))
+                            ->rules('required', 'date', 'after_or_equal:inactive_from');
+        } else {
+            $fields[] = Date::make(__('Inactive From'), 'inactive_from')
+                            ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
+                            ->required()
+                            ->rules('required', 'date', 'before_or_equal:inactive_to');
+
+            $fields[] = Date::make(__('Inactive To'), 'inactive_to')
+                            ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
+                            ->required()
+                            ->rules('required', 'date', 'after_or_equal:inactive_from');
+        }
+
+        return $fields;
     }
 }

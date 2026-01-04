@@ -79,7 +79,9 @@ class InstitutionNovaResource extends Resource
         /** @var User $user */
         $user = $request->user();
         if ($user->hasRole(Roles::GUEST)) {
-            return $query->where('id', $request->user()->institution_id);
+            $institutionIds = $user->institutions()->pluck('institutions.id');
+
+            return $query->whereIn('id', $institutionIds);
         }
 
         return $query;

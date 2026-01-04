@@ -16,9 +16,11 @@ use App\Nova\SettingsNovaResource;
 use App\Nova\StudentNovaResource;
 use App\Nova\UserNovaResource;
 use App\Support\Permissions;
+use App\Support\Roles;
 use CubeAgency\NovaGoogle2fa\Google2fa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
@@ -36,6 +38,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
 
+        Nova::serving(function () {
+            if (auth()->check() && auth()->user()->hasRole(Roles::GUEST)) {
+                app()->setLocale('hu');
+            }
+        });
+
         Nova::showUnreadCountInNotificationCenter();
 //        Nova::withoutThemeSwitcher();
         Nova::withoutGlobalSearch();
@@ -50,7 +58,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                                               ->hasPermissionTo(Permissions::VIEW_DASHBOARD);
                            }),
 
-                MenuSection::make('User Management', [
+                MenuSection::make(__('User Management'), [
                     MenuItem::resource(UserNovaResource::class)
                             ->canSee(function (NovaRequest $request) {
                                 return $request->user()
@@ -59,7 +67,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('user')
                            ->collapsable(),
 
-                MenuSection::make('General Management', [
+                MenuSection::make(__('General Management'), [
                     MenuItem::resource(CompanyNovaResource::class)
                             ->canSee(function (NovaRequest $request) {
                                 return $request->user()
@@ -73,7 +81,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('library')
                            ->collapsable(),
 
-                MenuSection::make('Student Management', [
+                MenuSection::make(__('Student Management'), [
                     MenuItem::resource(StudentNovaResource::class)
                             ->canSee(function (NovaRequest $request) {
                                 return $request->user()
@@ -82,7 +90,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('users')
                            ->collapsable(),
 
-                MenuSection::make('Nutrition Management', [
+                MenuSection::make(__('Nutrition Management'), [
                     MenuItem::resource(FoodNovaResource::class)
                             ->canSee(function (NovaRequest $request) {
                                 return $request->user()
@@ -101,7 +109,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('heart')
                            ->collapsable(),
 
-                MenuSection::make('Order Management', [
+                MenuSection::make(__('Order Management'), [
                     MenuItem::resource(OrderNovaResource::class)
                             ->canSee(function (NovaRequest $request) {
                                 return $request->user()
@@ -115,7 +123,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('clipboard-list')
                            ->collapsable(),
 
-                MenuSection::make('Activity Log', [
+                MenuSection::make(__('Activity Log'), [
                     MenuItem::resource(ActivityLogNovaResource::class)
                             ->canSee(function (NovaRequest $request) {
                                 return $request->user()
@@ -124,7 +132,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('map')
                            ->collapsable(),
 
-                MenuSection::make('Settings', [
+                MenuSection::make(__('Settings'), [
                     MenuItem::resource(SettingsNovaResource::class)
                             ->canSee(function (NovaRequest $request) {
                                 return $request->user()
