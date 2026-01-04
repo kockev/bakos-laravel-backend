@@ -47,14 +47,14 @@ class StudentInactivePeriodNovaResource extends Resource
                             ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                             ->required()
                             ->min($minDate)
-                            ->max(Carbon::today()->addWeek(1))
+                            ->max(Carbon::today()->addMonth())
                             ->rules('required', 'date', 'before_or_equal:inactive_to');
 
             $fields[] = Date::make(__('Inactive To'), 'inactive_to')
                             ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                             ->required()
                             ->min($minDate)
-                            ->max(Carbon::today()->addWeek(1))
+                            ->max(Carbon::today()->addWeek())
                             ->rules('required', 'date', 'after_or_equal:inactive_from');
         } else {
             $fields[] = Date::make(__('Inactive From'), 'inactive_from')
