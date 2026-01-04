@@ -54,25 +54,16 @@ class StudentNovaResource extends Resource
         'status',
     ];
 
-    /**
-     * Get the displayable label of the resource.
-     *
-     * @return string
-     */
     public static function label(): string
     {
-        return auth()->check() && auth()->user()->hasRole(Roles::GUEST) ? 'Diákok' : 'Students';
+        return __('Students');
     }
 
-    /**
-     * Get the displayable singular label of the resource.
-     *
-     * @return string
-     */
     public static function singularLabel(): string
     {
-        return auth()->check() && auth()->user()->hasRole(Roles::GUEST) ? 'Diák' : 'Student';
+        return __('Student');
     }
+
 
     /**
      * Modify the index query to filter institutions based on the user's institution_id.
@@ -86,7 +77,9 @@ class StudentNovaResource extends Resource
         /** @var User $user */
         $user = $request->user();
         if ($user->hasRole(Roles::GUEST)) {
-            return $query->where('institution_id', $request->user()->institution_id);
+            $institutionIds = $user->institutions()->pluck('institutions.id');
+
+            return $query->whereIn('institution_id', $institutionIds);
         }
 
         return $query;
@@ -108,39 +101,29 @@ class StudentNovaResource extends Resource
 
         if ($isGuest) {
             return [
-                BelongsTo::make('Intézmény', 'institution', InstitutionNovaResource::class)
+                BelongsTo::make(__('Institution'), 'institution', InstitutionNovaResource::class)
                          ->displayUsing(function ($institution) {
                              return $institution ? $institution->name : '-';
                          })
                          ->readonly(),
 
-                Text::make('Név', 'name')
+                Text::make(__('Name'), 'name')
                     ->sortable()
                     ->readonly(),
 
-                Boolean::make('Jelenlét', function () {
+                Boolean::make(__('Presence'), function () {
                     return $this->isActive();
                 })->readonly(),
 
-                BelongsTo::make('Diéta', 'diet', DietNovaResource::class)
+                BelongsTo::make(__('Diet'), 'diet', DietNovaResource::class)
                          ->displayUsing(function ($diet) {
                              return $diet ? $diet->name : '-';
                          })
                          ->readonly(),
 
-                Date::make('Hiányzik (-tól)', 'inactive_from')
-                    ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
-                    ->hideWhenCreating()
-                    ->hideFromIndex()
-                    ->min($minDate)
-                    ->max(Carbon::today()->addWeek(1)),
-
-                Date::make('Hiányzik (-ig)', 'inactive_to')
-                    ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
-                    ->hideWhenCreating()
-                    ->hideFromIndex()
-                    ->min($minDate)
-                    ->max(Carbon::today()->addWeek(1)),
+                HasMany::make(__('Inactive Periods'), 'inactivePeriods', StudentInactivePeriodNovaResource::class)
+                       ->hideWhenCreating()
+                       ->hideFromIndex(),
             ];
         }
 
@@ -154,29 +137,29 @@ class StudentNovaResource extends Resource
                                   ->hasRole(Roles::GUEST);
               }),
 
-            BelongsTo::make('Institution', 'institution', InstitutionNovaResource::class)
+            BelongsTo::make(__('Institution'), 'institution', InstitutionNovaResource::class)
                      ->displayUsing(function ($institution) {
                          return $institution ? $institution->name : '-';
                      }),
 
-            Text::make('Name', 'name')
+            Text::make(__('Name'), 'name')
                 ->sortable()
                 ->required(),
 
-            Boolean::make('Is Active Today', function () {
+            Boolean::make(__('Is Active Today'), function () {
                 return $this->isActive();
             })->readonly(),
 
-            Boolean::make('Certification Doc. Valid', function () {
+            Boolean::make(__('Cert. Doc. Valid'), function () {
                 return $this->isCertificationDocumentValid();
             })->readonly(),
 
-            BelongsTo::make('Diet', 'diet', DietNovaResource::class)
+            BelongsTo::make(__('Diet'), 'diet', DietNovaResource::class)
                      ->displayUsing(function ($diet) {
                          return $diet ? $diet->name : '-';
                      }),
 
-            Select::make('Age Group', 'age_group')
+            Select::make(__('Age Group'), 'age_group')
                   ->options(
                       collect(AgeGroupTypeEnum::values())
                           ->mapWithKeys(fn($value) => [$value => $value])
@@ -185,7 +168,7 @@ class StudentNovaResource extends Resource
                   ->displayUsingLabels()
                   ->required(),
 
-            BooleanGroup::make('Meal Preferences')
+            BooleanGroup::make(__('Meal Preferences'))
                         ->options(
                             collect(MealTypeEnum::values())
                                 ->mapWithKeys(fn($value) => [$value => $value])
@@ -224,25 +207,25 @@ class StudentNovaResource extends Resource
                         })
                         ->rules('required'),
 
-            Date::make('Diet Certificate Valid Until', 'diet_certificate_valid_until')
+            Date::make(__('Diet Certificate Valid Until'), 'diet_certificate_valid_until')
                 ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
                 ->hideFromIndex(),
 
-            BelongsTo::make('Updated by', 'updatedBy', UserNovaResource::class)
+            BelongsTo::make(__('Updated by'), 'updatedBy', UserNovaResource::class)
                      ->viewable(false)
                      ->onlyOnDetail(),
 
-            DateTime::make('Updated At', 'updated_at')
+            DateTime::make(__('Updated At'), 'updated_at')
                     ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 
-            DateTime::make('Created At', 'created_at')
+            DateTime::make(__('Created At'), 'created_at')
                     ->displayUsing(fn(?Carbon $date) => $date?->toDateTimeString())
                     ->onlyOnDetail()
                     ->readonly(),
 
-            HasMany::make('Inactive Periods', 'inactivePeriods', StudentInactivePeriodNovaResource::class)
+            HasMany::make(__('Inactive Periods'), 'inactivePeriods', StudentInactivePeriodNovaResource::class)
                    ->hideWhenCreating()
                    ->hideFromIndex(),
         ];

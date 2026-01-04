@@ -7,6 +7,7 @@ use App\Traits\TracksUserUpdates;
 use CubeAgency\NovaGoogle2fa\Traits\HasGoogle2fa;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\LogOptions;
@@ -26,7 +27,6 @@ class User extends Authenticatable
     protected $fillable = [
         'uuid',
         'name',
-        'institution_id',
         'email',
         'password',
         'updated_by',
@@ -52,9 +52,9 @@ class User extends Authenticatable
                          ->dontSubmitEmptyLogs();
     }
 
-    public function institution(): BelongsTo
+    public function institutions(): BelongsToMany
     {
-        return $this->belongsTo(Institution::class);
+        return $this->belongsToMany(Institution::class, 'user_institutions', 'user_id', 'institution_id');
     }
 
     public function updatedBy(): BelongsTo

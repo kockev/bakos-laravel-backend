@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -74,17 +75,15 @@ class UserNovaResource extends Resource
               ->sortable(),
 
             Text::make('Name', 'name')
+                ->required()
                 ->sortable(),
 
-            BelongsTo::make('Institution', 'institution', InstitutionNovaResource::class)
-                     ->displayUsing(function ($institution) {
-                         return $institution ? $institution->name : '-';
-                     }),
-
             Text::make('Email', 'email')
+                ->required()
                 ->sortable(),
 
             Password::make('Password', 'password')
+                    ->required()
                     ->onlyOnForms(),
 
             Text::make('Suggested Secure Password')
@@ -105,6 +104,7 @@ class UserNovaResource extends Resource
                 ->onlyOnDetail(),
 
             Select::make('Role')
+                  ->required()
                   ->options(Role::all()->pluck('name', 'id')->toArray())
                   ->displayUsingLabels()
                   ->sortable()
@@ -142,6 +142,8 @@ class UserNovaResource extends Resource
                     ->onlyOnDetail()
                     ->readonly(),
 
+            BelongsToMany::make('Institutions', 'institutions', InstitutionNovaResource::class)
+                         ->display('name'),
         ];
     }
 
