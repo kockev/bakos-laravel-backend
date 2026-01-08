@@ -90,6 +90,7 @@ class MenuNovaResource extends Resource
 
             Date::make('Date', 'date')
                 ->displayUsing(fn(?Carbon $date) => $date?->toDateString())
+                ->sortable()
                 ->required(),
 
             Number::make('Foods Expiration Period (Days)', 'foods_expiration_period_in_days')
