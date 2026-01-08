@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\HasUuid;
 use App\Traits\TracksUserUpdates;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +25,13 @@ class Diet extends Model
         'description',
         'updated_by',
     ];
+
+    public function hasMenuToday(): bool
+    {
+        return $this->menus()
+                    ->where('date', Carbon::today())
+                    ->exists();
+    }
 
     public function getActivitylogOptions(): LogOptions
     {
