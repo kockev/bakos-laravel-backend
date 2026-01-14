@@ -33,6 +33,13 @@ class Diet extends Model
                     ->exists();
     }
 
+    public function hasMenuForDate(Carbon $date): bool
+    {
+        return $this->menus()
+                    ->where('date', $date->format('Y-m-d'))
+                    ->exists();
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
