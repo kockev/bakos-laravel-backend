@@ -3,6 +3,7 @@
 namespace App\Nova\Actions;
 
 use App\Jobs\ProcessOrderCreationJob;
+use App\Models\Diet;
 use App\Services\Pdf\PdfServiceInterface;
 use Carbon\Carbon;
 use Datomatic\Nova\Tools\DetachedActions\DetachedAction;
@@ -35,7 +36,23 @@ class CreateOrderNovaAction extends DetachedAction
     {
         $orderDate = Carbon::parse($fields->get('order_date'));
 
+        // Check if all diets have menus for the selected date
+        $diets            = Diet::all();
+        $dietsWithoutMenu = [];
+
+        foreach ($diets as $diet) {
+            if (!$diet->hasMenuForDate($orderDate)) {
+                $dietsWithoutMenu[] = $diet->name;
+            }
+        }
+
         ProcessOrderCreationJob::dispatch($orderDate, $this->pdfService);
+
+        if (!empty($dietsWithoutMenu)) {
+            $message = 'Order creation has been queued - Warning: ' . count($dietsWithoutMenu) . ' diet(s) do not have menus for ' . $orderDate->format('Y-m-d') . ", process aborted.\n\n";
+
+            return DetachedAction::danger($message);
+        }
 
         return DetachedAction::message('Order creation has been queued.');
     }

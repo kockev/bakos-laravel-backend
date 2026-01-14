@@ -191,7 +191,8 @@ A Nova admin felület a következő fő menüpontokból áll:
 4. Kattints a **"Update Student"** gombra
 5. Ha nem akarsz módosítani kattints a **Cancel** gombra
 
-- Szerkesztésnél van lehetőség beállítani a diák hiányzását **Inactive From/To**.
+- Szerkesztésnél van lehetőség beállítani a diák hiányzását **Inactive Periods** alatt.
+    - **"Create Period"** gombra kattintva lehet megadni az **Inactive From** és **Inactive To** értékeit egy legördülő naptárból.
 
 #### Diák törlése:
 1. A diákok lista oldalon kattints a kuka ikonra
@@ -240,6 +241,7 @@ A Nova admin felület a következő fő menüpontokból áll:
 4. Kattints a **"Create Diet"** gombra
 
 - A Diéta részletes nézetében látható a hozzárendelt menük listája.
+- A Diéták lista nézetben található egy **Has Menu for Today** oszlop, ez egy segítség a felhasználónak, hogy mielőtt generálja a rendelést a mai napra, akkor gyorsan áttekinthető, hogy a minden diétához tartozik-e menü, ezt fontos ellenőrizni különben hiányos lehet a rendelés.
 
 #### Menü hozzárendelése a Diétához
 1. A diéták listájában kattints a kívánt diétára
@@ -270,9 +272,12 @@ A Nova admin felület a következő fő menüpontokból áll:
    - **Név** (Name) - kötelező
    - **Leírás** (Description)
    - **Dátum** (Date) - kötelező
-4. Kattints a **"Create"** gombra
+   - **Az ételek lejárati ideje napokban megadva** (Foods Expiration Period (Days)) - kötelező
+5. Kattints a **"Create"** gombra
 
 - Célszerű a menüket egy adott napra elkészíteni és aszerint elnevezni vagy legalább a "description"-ben feltüntetni, könnyebb lesz a diétához hozzárendelésnél kiválasztani.
+- Az ételek lejárati idejét napokban kell megadni az adott menüben, nem ételenként egyenként a könnyebb felvitel és követhetőség érdekében. Amikor generálódik a rendelés, akkor a menü lájarti ideje hozzáadódik a rendelés dátumához PL 2026.01.15 a rendelés deátuma és 3 nap a lejárati ideje a menünek, akkor az 2026.01.18 dátumot fog lejárati dátumnak beállítani az összes ételnek a menüben.
+- **FONTOS**, hogy amikor számolja a rendszer a **Lejáati időt** akkor a hétvégéket nem számolja bele, de az ünnepnapokat igen, tehát ha a menü potenciálisan egy ünnepnap környékén lesz esedékes, akkor számításba kell veni azokat a napokat is.
 - A Menü részletes nézetében látható a hozzárendelt ételek listája étkezések alapján.
 
 Példa:
@@ -349,6 +354,7 @@ Példa:
 - **FONTOS** - az összefűzött PDF letöltés - Download Combined PDF - mindig a kiválaszott nap legfrissebb rendeléseit fogja összefűzni és letölteni, érdemes minden rendelés generálás után letölteni ezt.
 - Ha pl van egy adott napra már 3 generált rendelés akkor az utolsót rendeléseket fűzi össze és tölti le.
 - A részletes nézetben látható az összes adag étel (kis és nagyétkezések), a gyerekek listája, milyen étkezésük van, miket esznek és ezeknek az összesítése.
+- **FONTOS** - hogy generálás előtt ellenőrizni kell, hogy az adott napra minden diétának be van-e állítva menü.
 
 #### Rendelés szerkesztése:
 1. A rendelések listájában kattints a szerkeszteni kívánt rendelésre 
@@ -379,6 +385,12 @@ Példa:
 - Mivel nincsenek intézmények, így nincsen kombinált PDF sem.
 - Egy összesítést tartalmaz az összes aznapi adag ételről.
 
+#### Matrica EXCEL letöltése:
+
+- Minden konyhai rendeléshez generálódik egy excel fájl, ami tartalmazza a matricák elkészítéséhez szükséges adatokat.
+- A fáj letöltéséhez ki kell választani a konyhai rendelés részletes nézetre
+- A jobb felső sarokban a három pontra kattintva válaszd ki a **Download Stickers XLS** lehetőséget a legördülő menüből.
+
 ---
 
 ## Felhasználókezelés
@@ -405,6 +417,9 @@ Példa:
 3. Módosítsd a szükséges mezőket
 4. Kattints a **"Update Order"** gombra
 5. Ha nem akarsz módosítani kattints a **Cancel** gombra
+
+- Felhasználó szerkesztésénél van lehetőség a felhasználóhoz több intézményt hozzáadni, ez a GUEST felhasználóknál lesz hasznos, így definiálva, hogy melyik intézményekhez van hozzáférése a felhasználónak.
+- Az **Institutions** szekcióban a **"Attach Institution"** gombra kattintva lehet megadni az intézményeket.
 
 #### Felhasználó törlése:
 1. A felhasználók lista oldalon kattints a kuka ikonra
